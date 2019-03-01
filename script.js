@@ -1,19 +1,18 @@
-/*
- * TODO: hide 'processing request' etc. in lower left corner
- * instructions for firefox: https://support.mozilla.org/en-US/questions/1196927
- */
+//TODO: hide 'processing request' etc. in lower left corner, for firefox: https://support.mozilla.org/en-US/questions/1196927
+//TODO: eka iframe näkyy liian kauan (?) -- selvitä mitä siinä tapahtuu
 //TODO: vaihteleva otsikko aikataulunäytölle
 //TODO: modularisointi, urlit jostain tämän filun ulkopuolelta
 //TODO: lörinää
 //TODO: käyttäjäystävällinen tapa lisätä urleja/contenttia (esim kuvia/gifejä?)
 //TODO: telegram-viestejä jostain???
+//TODO: lörisevämpiä transitioita
+//TODO: kellonajan / viikonpäivän (perjantai) / vuodenajan (esim. wappu) mukaan muovautuvaa contenttia
 var index = 0;
 var urls = [
     "https://fyysikkokilta.fi",
     "https://www.example.com",
     "naytto2.html", // local file
     "http://hsl.trapeze.fi/traveller/web?command=fullscreen&id=FyyKiOK&title=lors&cols=2&extracolumn=stop",
-    "https://giphy.com/explore/random"
 ];
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
