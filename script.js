@@ -46,10 +46,11 @@ function newSite() {
         // see https://stackoverflow.com/questions/164085/javascript-callback-when-iframe-is-finished-loading
         if(currentIframeIsTop) {
             console.log("fade in");
-            $(topIframe).fadeIn(fadeTime);
+            //$(topIframe).fadeIn(fadeTime);
+            $(topIframe).show("bounce", {times: 3}, "slow");
         } else {
             console.log("fade out");
-            $(topIframe).fadeOut(fadeTime);
+            $(topIframe).hide("blind");
         }
         console.log("flipping variable");
         currentIframeIsTop = !currentIframeIsTop;
