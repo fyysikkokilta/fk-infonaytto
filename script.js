@@ -38,6 +38,8 @@ function newSite() {
     }
 
     setTimeout(function() {
+        // TODO: consider using $(...).load(...) instead of this,
+        // see https://stackoverflow.com/questions/164085/javascript-callback-when-iframe-is-finished-loading
         if(currentIframeIsTop) {
             console.log("fade in");
             $(topIframe).fadeIn(fadeTime);
