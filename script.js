@@ -2,6 +2,11 @@
  * TODO: hide 'processing request' etc. in lower left corner
  * instructions for firefox: https://support.mozilla.org/en-US/questions/1196927
  */
+//TODO: vaihteleva otsikko aikataulunäytölle
+//TODO: modularisointi, urlit jostain tämän filun ulkopuolelta
+//TODO: lörinää
+//TODO: käyttäjäystävällinen tapa lisätä urleja/contenttia (esim kuvia/gifejä?)
+//TODO: telegram-viestejä jostain???
 var index = 0;
 var urls = [
     "https://fyysikkokilta.fi",
