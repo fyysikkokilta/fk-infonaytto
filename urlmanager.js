@@ -1,3 +1,4 @@
+// this many of the last displayed urls are discarded when selecting the next one.
 const MAX_RECENT_URLS = 4;
 
 // This list can have either strings or functions that generate an URL string.
