@@ -13,6 +13,10 @@ HSLTimetableURLGenerator = function () {
         "lörs",
         "TÄNÄÄN lähtee",
         "π = 3",
+        "bussningkörsnings",
+        "Otani",
+        "Körsbärsvägen",
+        "mee töihi",
     ];
 
     // instructions for HSL link parameters: https://drive.google.com/file/d/0B6kYA7HJwmafemo2RU1senU1Z0pfUTZEQmNkS0thSzg4dTRJ/view
