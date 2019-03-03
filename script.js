@@ -9,7 +9,6 @@
 //TODO: kellonajan / viikonpäivän (perjantai) / vuodenajan (esim. wappu) mukaan muovautuvaa contenttia
 //TODO: random transition fx
 //TODO: lisää lörinää
-//TODO: piilota scroll barit iframeista
 //TODO: HSL aikataulu ei aina toimi
 var index = 0;
 var topIframe = document.getElementById("topIframe");
