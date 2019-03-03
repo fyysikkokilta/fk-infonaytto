@@ -8,6 +8,7 @@ var urls = [
     "https://fyysikkokilta.fi",
     "https://www.example.com",
     "naytto2.html", // local file
+    "inspirobot.html",
     HSLTimetableURLGenerator,
     "https://en.wikipedia.org/wiki/Special:Random",
     "tgpost.html",
