@@ -3,12 +3,14 @@
 //TODO: vaihteleva otsikko aikataulunäytölle
 //TODO: modularisointi, urlit jostain tämän filun ulkopuolelta
 //TODO: lörinää
-//TODO: käyttäjäystävällinen tapa lisätä urleja/contenttia (esim kuvia/gifejä?)
+//TODO: käyttäjäystävällinen tapa lisätä urleja/contenttia (esim kuvia/gifejä?) -- config tiedosto?
 //TODO: telegram-viestejä jostain???
 //TODO: lörisevämpiä transitioita
 //TODO: kellonajan / viikonpäivän (perjantai) / vuodenajan (esim. wappu) mukaan muovautuvaa contenttia
 //TODO: random transition fx
 //TODO: lisää lörinää
+//TODO: piilota scroll barit iframeista
+//TODO: HSL aikataulu ei aina toimi
 var index = 0;
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
@@ -16,8 +18,6 @@ var currentIframeIsTop = true;
 var fadeTime = 500;
 var loadWaitTime = 500; // wait this long for pages to load in background
 var urlManager = new URLManager();
-
-//TODO: weighted_choice(list) { ... }
 
 function newSite() {
     var url = urlManager.getURL();
@@ -41,4 +41,4 @@ function newSite() {
     }, loadWaitTime);
 }
 
-setInterval ( newSite, 5000);
+setInterval ( newSite, 10000);

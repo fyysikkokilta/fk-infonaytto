@@ -16,9 +16,7 @@
         script.dataset.width = "100%";
 
         var container = document.getElementById("tg-script-container");
-        while(container.firstChild) {
-            container.removeChild(container.firstChild);
-        }
+        while(container.firstChild) { container.removeChild(container.firstChild); }
         container.appendChild(script);
     };
     updateMessage();

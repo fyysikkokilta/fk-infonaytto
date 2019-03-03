@@ -35,7 +35,7 @@ class URLManager {
             // if it's a generator, generate
             url = url();
         }
-        console.log("url:", url, "index:", i, "recents:", this.recentUrls);
+        //console.log("url:", url, "index:", i, "recents:", this.recentUrls);
         return url;
     }
 };
