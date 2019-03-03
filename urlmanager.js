@@ -39,3 +39,4 @@ class URLManager {
         return url;
     }
 };
+
