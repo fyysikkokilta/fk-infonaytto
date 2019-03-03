@@ -1,38 +1,18 @@
-function randint(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+const MAX_RECENT_URLS = 4;
 
-function timetablesHSL() {
-    var titles = [
-        "Otani",
-        "Mee töihin",
-        "bussningkörsnings",
-        "lörs lärä",
-        "körsbärsvägen",
-        "Kiltis",
-        "Körs",
-        "boi",
-    ];
-    let index = randint(titles.length);
-    return "http://hsl.trapeze.fi/traveller/web?command=fullscreen&id=FyyKiOK&title=" + titles[index] + "&cols=1&extracolumn=platform";
-}
-
-function wikipediaRandomArticle() {
-    return "https://en.wikipedia.org/wiki/Special:Random";
-}
-
-
-//TODO: this freezes the browser if there are only few functions in the list (1-3) 
+// This list can have either strings or functions that generate an URL string.
+// The URLManager.getURL method takes care of finding out which is the case and
+// calling the function if needed.
 var urls = [
-    timetablesHSL,
-    timetablesHSL,
-    timetablesHSL,
-    timetablesHSL,
-    wikipediaRandomArticle,
-    wikipediaRandomArticle,
+    "https://fyysikkokilta.fi",
+    "https://www.example.com",
+    "naytto2.html", // local file
+    HSLTimetableURLGenerator,
+    "https://en.wikipedia.org/wiki/Special:Random",
+    "tgpost.html",
 ];
 
-var maxRecentUrls = Math.max(4, urls.length - 1);
+var maxRecentUrls = Math.min(MAX_RECENT_URLS, urls.length - 1);
 
 class URLManager {
     constructor() {
@@ -50,8 +30,13 @@ class URLManager {
         }
         this.index = i;
         this.recentUrls.push(i);
-        console.log("url:", urls[this.index]());//, "index:", i, "recents:", this.recentUrls);
-        return urls[this.index]();
+        var url = urls[this.index];
+        if(typeof(url) === "function") {
+            // if it's a generator, generate
+            url = url();
+        }
+        console.log("url:", url, "index:", i, "recents:", this.recentUrls);
+        return url;
     }
 };
 
