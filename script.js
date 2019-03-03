@@ -12,18 +12,20 @@
 var index = 0;
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
-var currentIframeIsTop = false;
+var currentIframeIsTop = true;
 var fadeTime = 500;
 var loadWaitTime = 500; // wait this long for pages to load in background
 var urlManager = new URLManager();
+
+//TODO: weighted_choice(list) { ... }
 
 function newSite() {
     var url = urlManager.getURL();
 
     if(currentIframeIsTop) {
-        topIframe.src = url;
-    } else {
         botIframe.src = url;
+    } else {
+        topIframe.src = url;
     }
 
     setTimeout(function() {
@@ -31,9 +33,9 @@ function newSite() {
         // see https://stackoverflow.com/questions/164085/javascript-callback-when-iframe-is-finished-loading
         if(currentIframeIsTop) {
             //$(topIframe).fadeIn(fadeTime);
-            $(topIframe).show("drop", {}, "slow");
-        } else {
             $(topIframe).hide("fold");
+        } else {
+            $(topIframe).show("drop", {}, "slow");
         }
         currentIframeIsTop = !currentIframeIsTop;
     }, loadWaitTime);
