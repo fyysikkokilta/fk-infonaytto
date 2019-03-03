@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+img {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+</style>
+</head>
+<body>
+<img id="frame" class="center" alt="lörinää-by-AI"/>
+</body>
+<script>
+    // This function calls Inspirobot's api to fill image with unique motivational quote
+    (function () {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("frame").src = this.responseText;
+        }
+      };
+      xhttp.open("GET", "https://inspirobot.me/api?generate=true", true);
+      xhttp.send();
+    })();
+</script>
+</html>
