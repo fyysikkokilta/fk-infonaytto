@@ -1,17 +1,17 @@
-function randint(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+const MAX_RECENT_URLS = 4;
 
-//TODO: replace with a list of functions that generate urls
+// This list can have either strings or functions that generate an URL string.
+// The URLManager.getURL method takes care of finding out which is the case and
+// calling the function if needed.
 var urls = [
     "https://fyysikkokilta.fi",
     "https://www.example.com",
     "naytto2.html", // local file
-    "http://hsl.trapeze.fi/traveller/web?command=fullscreen&id=FyyKiOK&title=lors&cols=1&extracolumn=platform",
+    HSLTimetableURLGenerator,
     "https://en.wikipedia.org/wiki/Special:Random",
 ];
 
-var maxRecentUrls = Math.max(4, urls.length - 1);
+var maxRecentUrls = Math.min(MAX_RECENT_URLS, urls.length - 1);
 
 class URLManager {
     constructor() {
@@ -29,7 +29,12 @@ class URLManager {
         }
         this.index = i;
         this.recentUrls.push(i);
-        console.log("url:", urls[this.index], "index:", i, "recents:", this.recentUrls);
-        return urls[this.index];
+        var url = urls[this.index];
+        if(typeof(url) === "function") {
+            // if it's a generator, generate
+            url = url();
+        }
+        console.log("url:", url, "index:", i, "recents:", this.recentUrls);
+        return url;
     }
 };

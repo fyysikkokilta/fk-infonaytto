@@ -1,3 +1,7 @@
+function randint(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 function weighted_idx(weights) {
     /*
      * Given a list of weights [w0, w1, ...],
