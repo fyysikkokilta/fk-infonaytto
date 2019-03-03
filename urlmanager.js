@@ -2,13 +2,34 @@ function randint(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-//TODO: replace with a list of functions that generate urls
+function timetablesHSL() {
+    var titles = [
+        "Otani",
+        "Mee töihin",
+        "bussningkörsnings",
+        "lörs lärä",
+        "körsbärsvägen",
+        "Kiltis",
+        "Körs",
+        "boi",
+    ];
+    let index = randint(titles.length);
+    return "http://hsl.trapeze.fi/traveller/web?command=fullscreen&id=FyyKiOK&title=" + titles[index] + "&cols=1&extracolumn=platform";
+}
+
+function wikipediaRandomArticle() {
+    return "https://en.wikipedia.org/wiki/Special:Random";
+}
+
+
+//TODO: this freezes the browser if there are only few functions in the list (1-3) 
 var urls = [
-    "https://fyysikkokilta.fi",
-    "https://www.example.com",
-    "naytto2.html", // local file
-    "http://hsl.trapeze.fi/traveller/web?command=fullscreen&id=FyyKiOK&title=lors&cols=1&extracolumn=platform",
-    "https://en.wikipedia.org/wiki/Special:Random",
+    timetablesHSL,
+    timetablesHSL,
+    timetablesHSL,
+    timetablesHSL,
+    wikipediaRandomArticle,
+    wikipediaRandomArticle,
 ];
 
 var maxRecentUrls = Math.max(4, urls.length - 1);
@@ -29,7 +50,8 @@ class URLManager {
         }
         this.index = i;
         this.recentUrls.push(i);
-        console.log("url:", urls[this.index], "index:", i, "recents:", this.recentUrls);
-        return urls[this.index];
+        console.log("url:", urls[this.index]());//, "index:", i, "recents:", this.recentUrls);
+        return urls[this.index]();
     }
 };
+
