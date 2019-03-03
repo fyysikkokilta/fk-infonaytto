@@ -9,6 +9,7 @@ var urls = [
     "naytto2.html", // local file
     HSLTimetableURLGenerator,
     "https://en.wikipedia.org/wiki/Special:Random",
+    "tgpost.html",
 ];
 
 var maxRecentUrls = Math.min(MAX_RECENT_URLS, urls.length - 1);
