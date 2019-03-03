@@ -19,24 +19,31 @@ var loadWaitTime = 500; // wait this long for pages to load in background
 var urlManager = new URLManager();
 
 //TODO: lörssiä tähän, star-wars tyyliset star wipet, övereimmät powerpoint spinnaukset
-//TODO: consider moving to separate file
 
+//TODO: move to separate file
 $.effects.define( "kors", "toggle", function( options, done ) {
   var show = options.mode === "show";
  
+  // see https://stackoverflow.com/a/5463375
   $( this )
     .css( {
         opacity: show ? 0 : 1,
-        //rotateX: 90, // TODO: can't be animated like this, see https://github.com/rstacruz/jquery.transit#readme, and section 'alternatives' therein
     } )
     .animate( {
       opacity: show ? 1 : 0,
-      //rotateX: 0, //TODO
+      angle: show ? 0 : 360,
     }, {
       queue: false,
       duration: options.duration,
       easing: options.easing,
-      complete: done
+      complete: done,
+      step: function(now, fx) {
+        if(fx.prop != "angle") {
+          return;
+        }
+        console.log("step", now, "fx", fx.prop, "show", show);
+        $(this).css("-webkit-transform", "rotate(" + now + "deg)");
+      }
     } );
 } );
 var transitionEffectsWeighted = [
@@ -92,4 +99,4 @@ function newSite() {
     }, loadWaitTime);
 }
 
-setInterval ( newSite, 10000);
+//setInterval ( newSite, 10000);
