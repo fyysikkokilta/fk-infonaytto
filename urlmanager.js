@@ -40,4 +40,3 @@ class URLManager {
         return url;
     }
 };
-

@@ -18,64 +18,6 @@ var fadeTime = 500;
 var loadWaitTime = 500; // wait this long for pages to load in background
 var urlManager = new URLManager();
 
-//TODO: lörssiä tähän, star-wars tyyliset star wipet, övereimmät powerpoint spinnaukset
-
-//TODO: move to separate file
-$.effects.define( "kors", "toggle", function( options, done ) {
-  var show = options.mode === "show";
- 
-  // see https://stackoverflow.com/a/5463375
-  $( this )
-    .css( {
-        opacity: show ? 0 : 1,
-    } )
-    .animate( {
-      opacity: show ? 1 : 0,
-      angle: show ? 0 : 360,
-    }, {
-      queue: false,
-      duration: options.duration,
-      easing: options.easing,
-      complete: done,
-      step: function(now, fx) {
-        if(fx.prop != "angle") {
-          return;
-        }
-        console.log("step", now, "fx", fx.prop, "show", show);
-        $(this).css("-webkit-transform", "rotate(" + now + "deg)");
-      }
-    } );
-} );
-var transitionEffectsWeighted = [
-    //[{effect: "blind", duration: "slow"},                       1],
-    //[{effect: "bounce", distance: 100, times: 5, duration: 1000},   1],
-    //[{effect: "clip", duration: "slow"},                        1],
-    //[{effect: "drop", direction: "left", duration: "slow"},     0.25],
-    //[{effect: "drop", direction: "right", duration: "slow"},    0.25],
-    //[{effect: "drop", direction: "up",   duration: "slow"},     0.25],
-    //[{effect: "drop", direction: "down", duration: "slow"},     0.25],
-    ////[{effect: "explode", duration: "slow"},   1], // doesn't work with 100% scale iframes, see https://stackoverflow.com/questions/13290086/jquery-explode-effect-not-working-with-percentage-width-height
-    //[{effect: "fade", duration: "slow"},                        1],
-    //[{effect: "fold", size: "10%", horizFirst: true, duration: "slow"},     0.5],
-    //[{effect: "fold", size: "10%", horizFirst: false, duration: "slow"},    0.5],
-    ////[{effect: "highlight", duration: "slow"}, 1], // doesn't seem to work really well
-    ////[{effect: "puff", percent: 200, duration: "slow"},      1], // doesn't work with 100% widths..
-    //[{effect: "pulsate", times: 10, duration: 1000},   0.1], // MAXIMUM EPILEPSY, good idea?
-    ////[{effect: "shake", direction: "left", distance: 100, duration: "slow"},     1], // pretty dumb
-    ////[{effect: "shake", direction: "up", distance: 100, duration: "slow"},     1], // pretty dumb
-    //// effect: "size" is ~the same as effect: "scale"
-    //[{effect: "size", scale: "box", origin: ["top", "left"], duration: "slow"},         0.2],
-    //[{effect: "size", scale: "box", origin: ["top", "right"], duration: "slow"},        0.2],
-    //[{effect: "size", scale: "box", origin: ["bottom", "right"], duration: "slow"},     0.2],
-    //[{effect: "size", scale: "box", origin: ["bottom", "left"], duration: "slow"},      0.2],
-    //[{effect: "size", scale: "box", origin: ["middle", "center"], duration: "slow"},    0.2],
-    //[{effect: "slide", direction: "left", duration: "slow"},    0.25],
-    //[{effect: "slide", direction: "right", duration: "slow"},   0.25],
-    //[{effect: "slide", direction: "up",   duration: "slow"},    0.25],
-    //[{effect: "slide", direction: "down", duration: "slow"},    0.25],
-    [{effect: "kors", direction: "down", duration: "slow"},    0.25],
-];
-
 function newSite() {
     var url = urlManager.getURL();
 
