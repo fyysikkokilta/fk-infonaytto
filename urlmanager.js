@@ -5,12 +5,12 @@ const MAX_RECENT_URLS = 4;
 // The URLManager.getURL method takes care of finding out which is the case and
 // calling the function if needed.
 var urls = [
-    "https://fyysikkokilta.fi",
     "https://www.example.com",
     "naytto2.html", // local file
-    HSLTimetableURLGenerator,
-    "https://en.wikipedia.org/wiki/Special:Random",
-    "tgpost.html",
+    //"https://fyysikkokilta.fi",
+    //HSLTimetableURLGenerator,
+    //"https://en.wikipedia.org/wiki/Special:Random",
+    //"tgpost.html",
 ];
 
 var maxRecentUrls = Math.min(MAX_RECENT_URLS, urls.length - 1);
