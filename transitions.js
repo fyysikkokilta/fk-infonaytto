@@ -63,9 +63,7 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
 
   // the radius of the tips should be this big for the star to be completely outside
   const maxRadius = Math.max.apply(null, origin) * 2 * 1.05; // WTF JAVASCRIPT WHY IS MAX LIKE THIS
-  console.log(origin, maxRadius);
-
-  //var currentScale = show ? 0 : 1;
+  //console.log(origin, maxRadius);
 
   // vertices of star
   var vertices = [];
@@ -79,18 +77,43 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
     var y1 = -Math.cos(i * 2 * pi / 5.0 + pi / 5.0) * innerRadiusRatio;
     vertices.push([x1, y1]);
   });
+
   //console.log(pi, vertices);
+  console.log("show: ", show);
 
   //var radius = 358;
 
-  //console.log(vertices_str);
-  var vertices_str = "polygon(" + vertices.map(function(xy) {
-    //return (now * xy[0] + origin[0]) + "px " + (now * xy[1] + origin[1]) + "px";
-    return (100 * xy[0] + origin[0]) + "px " + (100 * xy[1] + origin[1]) + "px";
-  }).join(", ") + ")";
+  var radius1 = 100;
+  var radius2 = 300;
 
-  //console.log(now, vertices_str);
-  $(this).css("-webkit-clip-path", vertices_str);
+  function get_vertices_str(radius) {
+    var ret = "polygon(" + vertices.map(function(xy) {
+      return (radius * xy[0] + origin[0]) + "px " + (radius * xy[1] + origin[1]) + "px";
+    }).join(", ") + ")";
+    return ret;
+  }
+
+  var vertices_str = get_vertices_str(show ? 0 : maxRadius);
+  var vertices_str2 = get_vertices_str(show ? maxRadius : 0);
+
+  console.log("adding css");
+  $(this)
+    .css({"-webkit-clip-path": vertices_str2 })
+    .css({"-webkit-transition": "all 1s ease-out"});
+
+  const cssName = "starWipeCSS";
+  if(!($("#" + cssName ).length)) {
+    $("head").append('<style id="' + cssName + '" type="text/css"> .starEnd { -webkit-clip-path: ' + vertices_str + "; }</style>");
+  }
+  if(show) {
+    $(this).addClass("starEnd");
+  } else {
+    $(this).removeClass("starEnd");
+  }
+
+  setTimeout(function() {
+    done();
+  }, options.duration);
 
   //TODO: check out this to animate clip path...
   // https://codepen.io/damianocel/pen/KdobyK
@@ -117,6 +140,8 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
       }
     });
     */
+
+
 
 
   //console.log("-webkit-transform: ", $(this).css("-webkit-transform"));
