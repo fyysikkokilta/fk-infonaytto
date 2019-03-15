@@ -9,7 +9,9 @@
 //TODO: kellonajan / viikonpäivän (perjantai) / vuodenajan (esim. wappu) mukaan muovautuvaa contenttia
 //TODO: random transition fx
 //TODO: lisää lörinää
+//TODO: generaattori + CSS countdown.html:lle
 //TODO: HSL aikataulu ei aina toimi
+//TODO: ohjeet readme:hen
 var index = 0;
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");

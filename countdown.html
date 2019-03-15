@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background: white;
+}
+</style>
+</head>
+<body>
+    <h1 id="title"></h1>
+    <div id="display"></div>
+    <div id="instructions" style="display: none;">The URL should be something like <code>...<span id="filename"></span>/?title=Event Title&amp;timestamp=2938493284</code>, where <code>Event Title</code> is the title of your event and <code>timestamp</code> is the time you're counting down to, in seconds since 1st of January 1970.</div>
+    <div id="errorMessage"></div>
+</body>
+<script type="text/javascript">
+var params = new URLSearchParams(window.location.search);
+//TODO: add parameter for background image?
+if(!params.has("title") || !params.has("timestamp")) {
+    var url = window.location.pathname;
+    var filename = url.substring(url.lastIndexOf("/"));
+    document.getElementById("filename").innerHTML = filename;
+    document.getElementById("instructions").style.display = "block";
+} else {
+    document.getElementById("title").innerHTML = params.get("title");
+    var timestamp = parseInt(params.get("timestamp"));
+    if(isNaN(timestamp)) {
+        document.getElementById("errorMessage").innerHTML = "Error parsing timestamp.";
+    } else {
+        setInterval(function() {
+            // why doesn't javascript have a timedelta formatting function...
+            var dt = timestamp - new Date().getTime() / 1000; // delta time in seconds
+            var d = Math.floor(dt / (60 * 60 * 24));
+            var h = Math.floor(dt / (60 * 60) - 24*d);
+            var m = Math.floor(dt / (60) - 60 * h - 24 * 60 * d);
+            var s = Math.floor(dt - 60 * m - 60 * 60 * h - 24 * 60 * 60 * d);
+            //TODO: parametrize 'päivää'?
+            var str = d + " päivää ";
+            str +=       (h + "").padStart(2, "0")
+            str += ":" + (m + "").padStart(2, "0")
+            str += ":" + (s + "").padStart(2, "0")
+            document.getElementById("display").innerHTML = str;
+        }, 100);
+    }
+}
+</script>
+</html>
