@@ -31,7 +31,7 @@ function newSite() {
         // TODO: consider using $(...).load(...) instead of this,
         // see https://stackoverflow.com/questions/164085/javascript-callback-when-iframe-is-finished-loading
         var transition = weighted_choice(transitionEffectsWeighted);
-        //console.log("transition: ", transition.effect);
+        //console.log("transition: ", transition);
         if(currentIframeIsTop) {
             $(topIframe).hide(transition);
         } else {

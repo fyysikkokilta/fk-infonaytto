@@ -7,14 +7,13 @@
  *      scale: float - scale to this value when disappearing or start with this scale when appearing
  */
 $.effects.define( "spin", "toggle", function( options, done ) {
+  //TODO: sometimes doesn't spin (if starting angle is the same as final angle from some previous iteration?)
   var show = options.mode === "show";
   var angle = options.hasOwnProperty("angle") ? options["angle"] : 360;
   var scale = options.hasOwnProperty("scale") ? options["scale"] : 0.5;
 
   var currentAngle = show ? angle : 0;
   var currentScale = show ? scale : 1;
-
-  //console.log("-webkit-transform: ", $(this).css("-webkit-transform"));
 
   $( this )
     .css( {
@@ -71,6 +70,7 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
   // vertices of star
   var vertices = [];
   [0, 1, 2, 3, 4].forEach(function(i) {
+    // tip points
     var x =  Math.sin(i * 2 * pi / 5.0);
     var y = -Math.cos(i * 2 * pi / 5.0);
     //return [x, y];
@@ -81,7 +81,7 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
     vertices.push([x1, y1]);
   });
 
-  //console.log(show ? "show" : "hide");
+  //console.log("starWipe:", show ? "show" : "hide");
 
   function get_vertices_str(radius) {
     var ret = "polygon(" + vertices.map(function(xy) {
@@ -95,39 +95,26 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
 
   // reference for clip path animation: https://codepen.io/damianocel/pen/KdobyK
 
-  // inject <style/> block which specifies star start/end position
-  const cssName = "starWipeCSS";
-  if(!($("#" + cssName ).length)) {
-    var stl = document.createElement("style");
-    stl.id = cssName;
-    stl.type = "text/css";
-    var css = "";
-    css += ' .starEnd { clip-path: ' + vertices_str_final + "; }";
-    css += '.starStart { clip-path: ' + vertices_str_start + "; }";
-
-    stl.innerHTML = css;
-    $("head").append(stl);
-  }
-
+  const originalClipPath = $(this).css("clip-path");
+  // apply initial clip path
   $(this)
-    .css({"transition": "all " + options.duration + "ms linear"});
+    .css({
+      "transition": "all " + options.duration + "ms linear",
+      "clip-path": show ? vertices_str_start : vertices_str_final,
+    }).css("clip-path"); // this needs to be here, otherwise doesn't work...
 
+  // apply final clip path, CSS3 takes care of the animation
+  $(this).css("clip-path", show ? vertices_str_final : vertices_str_start);
 
-  //TODO: doesn't work on first time, looks okay after that...
-
-  //console.log("classes before:", $(this)[0].classList);
-
-  $(this).removeClass("starStart");
-  $(this).removeClass("starEnd");
-
-  $(this).addClass(show ? "starEnd" : "starStart");
-
-  //console.log("classes after:", $(this)[0].classList);
-
+  const t = this;
   setTimeout(function() {
+    // wait for the animation to finish
+
+    $(t).css({"clip-path": originalClipPath}); // clear up clip path in the end
+
     //console.log("done");
     done();
-  }, 1.5*options.duration); // for some reason, needs ~1.5x
+  }, 1.0*options.duration);
 
 } );
 
@@ -163,5 +150,5 @@ var transitionEffectsWeighted = [
     //[{effect: "spin", angle:  360, scale: 0.1, duration: "slow"},    0.5],
     //[{effect: "spin", angle: -360, scale: 0.1, duration: "slow"},    0.5],
     //[{effect: "starwipe", angle: -360, scale: 0.1, duration: "slow"},    0.5],
-    [{effect: "starwipe", angle: -360, scale: 0.1, duration: 1000},    0.5],
+    [{effect: "starwipe", angle: -360, scale: 0.1, duration: 1000},    1],
 ];
