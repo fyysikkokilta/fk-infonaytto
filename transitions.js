@@ -151,16 +151,15 @@ var transitionEffectsWeighted = [
     [{effect: "fold", size: "10%", horizFirst: false, duration: "slow"},    0.5],
     //[{effect: "highlight", duration: "slow"}, 1], // doesn't seem to work really well
     //[{effect: "puff", percent: 200, duration: "slow"},      1], // doesn't work with 100% widths..
-    [{effect: "pulsate", times: 10, duration: 1000},   0.1], // MAXIMUM EPILEPSY, good idea?
+    [{effect: "pulsate", times: 10, duration: 1000},   0.05], // MAXIMUM EPILEPSY, good idea?
     //[{effect: "shake", direction: "left", distance: 100, duration: "slow"},     1], // pretty dumb
     //[{effect: "shake", direction: "up", distance: 100, duration: "slow"},     1], // pretty dumb
     // effect: "size" is ~the same as effect: "scale"
-    // TODO: replace 'size' with custom version using CSS3 animations to actually zoom content instead of scaling the surrounding window
     [{effect: "size", scale: "box", origin: ["top", "left"], duration: "slow"},         0.2],
     [{effect: "size", scale: "box", origin: ["top", "right"], duration: "slow"},        0.2],
     [{effect: "size", scale: "box", origin: ["bottom", "right"], duration: "slow"},     0.2],
     [{effect: "size", scale: "box", origin: ["bottom", "left"], duration: "slow"},      0.2],
-    [{effect: "size", scale: "box", origin: ["middle", "center"], duration: "slow"},    0.2],
+    [{effect: "spin3d", scale: 0., angleX : 0, angleY: 0, angleZ: 0, duration: "slow"}, 0.2], // this is better than 'size' with [middle, center].
     [{effect: "slide", direction: "left", duration: "slow"},    0.25],
     [{effect: "slide", direction: "right", duration: "slow"},   0.25],
     [{effect: "slide", direction: "up",   duration: "slow"},    0.25],
