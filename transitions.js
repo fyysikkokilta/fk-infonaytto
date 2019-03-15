@@ -42,6 +42,7 @@ $.effects.define( "spin", "toggle", function( options, done ) {
         transform += " scale(" + currentScale + ")";
         //console.log("transform", transform);
         $(this).css("-webkit-transform", transform);
+        //$(this).css("transform", transform);
       }
     } );
 } );
@@ -97,7 +98,8 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
   //console.log("adding css");
   $(this)
   //  .css({"-webkit-clip-path": show ? vertices_str_start : vertices_str_final })
-    .css({"-webkit-transition": "all " + options.duration + "ms linear"});
+    //.css({"-webkit-transition": "all " + options.duration + "ms linear"});
+    .css({"transition": "all " + options.duration + "ms linear"});
 
   const cssName = "starWipeCSS";
   if(!($("#" + cssName ).length)) {
@@ -105,9 +107,8 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
     stl.id = cssName;
     stl.type = "text/css";
     var css = "";
-    //TODO: make work on firefox...
-    css += '.starStart { -webkit-clip-path: ' + vertices_str_start + "; }";
-    css += ' .starEnd { -webkit-clip-path: ' + vertices_str_final + "; }";
+    css += '.starStart { clip-path: ' + vertices_str_start + "; }";
+    css += ' .starEnd { clip-path: ' + vertices_str_final + "; }";
 
     stl.innerHTML = css;
     $("head").append(stl);
