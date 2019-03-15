@@ -62,7 +62,9 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
   const innerRadiusRatio = Math.sin(pi/10.) / Math.sin(7. * pi / 10.);
 
   // the radius of the tips should be this big for the star to be completely outside
-  const maxRadius = Math.max.apply(null, origin) * 2 * 1.05; // WTF JAVASCRIPT WHY IS MAX LIKE THIS
+  // WTF JAVASCRIPT WHY IS MAX LIKE THIS
+  const maxRadius = Math.max.apply(null, origin) / innerRadiusRatio * 1.2;
+
   //console.log(origin, maxRadius);
 
   // vertices of star
@@ -78,13 +80,7 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
     vertices.push([x1, y1]);
   });
 
-  //console.log(pi, vertices);
-  console.log("show: ", show);
-
-  //var radius = 358;
-
-  var radius1 = 100;
-  var radius2 = 300;
+  //console.log(show ? "show" : "hide");
 
   function get_vertices_str(radius) {
     var ret = "polygon(" + vertices.map(function(xy) {
@@ -93,80 +89,48 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
     return ret;
   }
 
-  var vertices_str = get_vertices_str(show ? 0 : maxRadius);
-  var vertices_str2 = get_vertices_str(show ? maxRadius : 0);
+  var vertices_str_start = get_vertices_str(0);
+  var vertices_str_final = get_vertices_str(maxRadius);
 
-  console.log("adding css");
+  // reference for clip path animation: https://codepen.io/damianocel/pen/KdobyK
+
+  //console.log("adding css");
   $(this)
-    .css({"-webkit-clip-path": vertices_str2 })
-    .css({"-webkit-transition": "all 1s ease-out"});
+  //  .css({"-webkit-clip-path": show ? vertices_str_start : vertices_str_final })
+    .css({"-webkit-transition": "all " + options.duration + "ms linear"});
 
   const cssName = "starWipeCSS";
   if(!($("#" + cssName ).length)) {
-    $("head").append('<style id="' + cssName + '" type="text/css"> .starEnd { -webkit-clip-path: ' + vertices_str + "; }</style>");
+    var stl = document.createElement("style");
+    stl.id = cssName;
+    stl.type = "text/css";
+    var css = "";
+    //TODO: make work on firefox...
+    css += '.starStart { -webkit-clip-path: ' + vertices_str_start + "; }";
+    css += ' .starEnd { -webkit-clip-path: ' + vertices_str_final + "; }";
+
+    stl.innerHTML = css;
+    $("head").append(stl);
   }
+
+  //TODO: doesn't work on first time, looks okay after that...
+  //console.log("before: has start", $(this).hasClass("starStart"), "end", $(this).hasClass("starEnd"));
   if(show) {
     $(this).addClass("starEnd");
+    $(this).addClass("starStart");
+    $(this).removeClass("starStart");
   } else {
+    $(this).addClass("starStart");
+    $(this).addClass("starEnd");
     $(this).removeClass("starEnd");
   }
+  //console.log("after: has start", $(this).hasClass("starStart"), "end", $(this).hasClass("starEnd"));
 
   setTimeout(function() {
+    //console.log("done");
     done();
-  }, options.duration);
+  }, 1.5*options.duration); // for some reason, needs ~1.5x
 
-  //TODO: check out this to animate clip path...
-  // https://codepen.io/damianocel/pen/KdobyK
-  /*
-  $({radius: show ? maxRadius : 0})
-    .animate({
-      radius: show ? 0 : maxRadius
-    }, {
-      queue: false,
-      duration: options.duration,
-      easing: options.easing,
-      complete: done,
-      step: function(now, fx) {
-        if(fx.prop == "radius") {
-          var vertices_str = "polygon(" + vertices.map(function(xy) {
-            //return (now * xy[0] + origin[0]) + "px " + (now * xy[1] + origin[1]) + "px";
-            return (100 * xy[0] + origin[0]) + "px " + (100 * xy[1] + origin[1]) + "px";
-          }).join(", ") + ")";
-
-          //console.log(now, vertices_str);
-          $(this).css("-webkit-clip-path", vertices_str);
-
-        }
-      }
-    });
-    */
-
-
-
-
-  //console.log("-webkit-transform: ", $(this).css("-webkit-transform"));
-
-  //$( this )
-  //  .css( {
-  //      opacity: show ? 0 : 1,
-  //  } )
-  //  .each(function() { this.scale = currentScale; }) // set initial value for scale this way, https://stackoverflow.com/questions/17038511/jquery-animate-step-function-with-attribute-value-initialization
-  //  .animate( {
-  //    opacity: show ? 1 : 0,
-  //    angle: show ? 0 : angle,
-  //    scale: show ? 1 : scale,
-  //  }, {
-  //    queue: false,
-  //    duration: options.duration,
-  //    easing: options.easing,
-  //    complete: done,
-  //    step: function(now, fx) {
-  //      if(fx.prop == "scale") {
-  //        currentScale = now;
-  //      }
-  //      path
-  //    }
-  //  } );
 } );
 
 // list of all possible transitions
@@ -200,5 +164,6 @@ var transitionEffectsWeighted = [
 
     //[{effect: "spin", angle:  360, scale: 0.1, duration: "slow"},    0.5],
     //[{effect: "spin", angle: -360, scale: 0.1, duration: "slow"},    0.5],
-    [{effect: "starwipe", angle: -360, scale: 0.1, duration: "slow"},    0.5],
+    //[{effect: "starwipe", angle: -360, scale: 0.1, duration: "slow"},    0.5],
+    [{effect: "starwipe", angle: -360, scale: 0.1, duration: 1000},    0.5],
 ];
