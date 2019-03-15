@@ -1,19 +1,26 @@
 //TODO: lörssiä tähän, star-wars tyyliset star wipet (fiin muotoinen star wipe), övereimmät powerpoint spinnaukset
 
 /*
- * spin + scale + fade effect like newspaper in the Simpsons
+ * spin + scale + fade effect like newspaper in the Simpsons, except 3D
  * options:
  *      angle: float - apply this much rotation to the element when it disappears or start from this angle when appearing
+ * options:
  *      scale: float - scale to this value when disappearing or start with this scale when appearing
+ *      angleX: apply this much rotation to the element about the X axis (axis horizontal on screen) when it disappears or start from this angle when it appears
+ *      angleY: same as X but rotate around Y axis (axis vertical on screen)
+ *      angleZ: same as X but rotate around Z axis (axis pointing outwards from screen)
  */
-$.effects.define( "spin", "toggle", function( options, done ) {
-  //TODO: sometimes doesn't spin (if starting angle is the same as final angle from some previous iteration?)
+$.effects.define("spin3d", "toggle", function( options, done ) {
   var show = options.mode === "show";
-  var angle = options.hasOwnProperty("angle") ? options["angle"] : 360;
   var scale = options.hasOwnProperty("scale") ? options["scale"] : 0.5;
+  var angleZ = options.hasOwnProperty("angleZ") ? options["angleZ"] : 360;
+  var angleY = options.hasOwnProperty("angleY") ? options["angleY"] : 180;
+  var angleX = options.hasOwnProperty("angleX") ? options["angleX"] : 0;
 
-  var currentAngle = show ? angle : 0;
   var currentScale = show ? scale : 1;
+  var currentAngleZ = show ? angleZ : 0;
+  var currentAngleY = show ? angleY : 0;
+  var currentAngleX = show ? angleX : 0;
 
   $( this )
     .css( {
@@ -22,7 +29,9 @@ $.effects.define( "spin", "toggle", function( options, done ) {
     .each(function() { this.scale = currentScale; }) // set initial value for scale this way, https://stackoverflow.com/questions/17038511/jquery-animate-step-function-with-attribute-value-initialization
     .animate( {
       opacity: show ? 1 : 0,
-      angle: show ? 0 : angle,
+      angleX: show ? 0 : angleX,
+      angleY: show ? 0 : angleY,
+      angleZ: show ? 0 : angleZ,
       scale: show ? 1 : scale,
     }, {
       queue: false,
@@ -30,21 +39,30 @@ $.effects.define( "spin", "toggle", function( options, done ) {
       easing: options.easing,
       complete: done,
       step: function(now, fx) {
-        if(fx.prop == "angle") {
-          currentAngle = now;
+        if(fx.prop == "angleZ") {
+          currentAngleZ = now;
+        }
+        if(fx.prop == "angleY") {
+          currentAngleY = now;
+        }
+        if(fx.prop == "angleX") {
+          currentAngleX = now;
         }
         if(fx.prop == "scale") {
           currentScale = now;
         }
         var transform = "";
-        transform += "rotate(" + currentAngle + "deg)";
+        transform += "rotateZ(" + currentAngleZ + "deg)";
+        transform += "rotateY(" + currentAngleY + "deg)";
+        transform += "rotateX(" + currentAngleX + "deg)";
         transform += " scale(" + currentScale + ")";
         //console.log("transform", transform);
         $(this).css("-webkit-transform", transform);
         //$(this).css("transform", transform);
       }
     } );
-} );
+
+});
 
 /*
  * star wipe
@@ -137,6 +155,7 @@ var transitionEffectsWeighted = [
     //[{effect: "shake", direction: "left", distance: 100, duration: "slow"},     1], // pretty dumb
     //[{effect: "shake", direction: "up", distance: 100, duration: "slow"},     1], // pretty dumb
     // effect: "size" is ~the same as effect: "scale"
+    // TODO: replace 'size' with custom version using CSS3 animations to actually zoom content instead of scaling the surrounding window
     [{effect: "size", scale: "box", origin: ["top", "left"], duration: "slow"},         0.2],
     [{effect: "size", scale: "box", origin: ["top", "right"], duration: "slow"},        0.2],
     [{effect: "size", scale: "box", origin: ["bottom", "right"], duration: "slow"},     0.2],
@@ -147,7 +166,16 @@ var transitionEffectsWeighted = [
     [{effect: "slide", direction: "up",   duration: "slow"},    0.25],
     [{effect: "slide", direction: "down", duration: "slow"},    0.25],
 
-    [{effect: "spin", angle:  360, scale: 0.1, duration: "slow"},    0.5],
-    [{effect: "spin", angle: -360, scale: 0.1, duration: "slow"},    0.5],
+    [{effect: "spin3d", scale: 0, angleX : 0, angleY: 0 , angleZ :  360, duration : "slow"}, 0.5],
+    [{effect: "spin3d", scale: 0, angleX : 0, angleY: 0 , angleZ : -360, duration : "slow"}, 0.5],
+    [{effect: "spin3d", scale: 0, angleX : 180, angleY: 360, angleZ : 180, duration : 800},  0.2],
+    [{effect: "spin3d", scale: 0.5, angleX : 0, angleY: 180, angleZ :  180, duration : 800}, 0.1],
+    [{effect: "spin3d", scale: 0.5, angleX : 0, angleY: 180, angleZ : -180, duration : 800}, 0.1],
+    [{effect: "spin3d", scale: 1.0, angleX : 0, angleY: 90, angleZ : 90, duration : 800},    0.2],
+    [{effect: "spin3d", scale: 1.0, angleX : 90, angleY: 0, angleZ : -90, duration : 800},   0.1],
+    [{effect: "spin3d", scale: 1.0, angleX : 90, angleY: 0, angleZ :  90, duration : 800},   0.1],
+    [{effect: "spin3d", scale: 0, angleX : 180, angleY:  270, angleZ :  0, duration : 800},  0.2],
+    [{effect: "spin3d", scale: 0, angleX : 180, angleY: -270, angleZ :  0, duration : 800},  0.2],
+
     [{effect: "starwipe", duration: 1000},    1],
 ];
