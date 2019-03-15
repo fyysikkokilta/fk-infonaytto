@@ -149,6 +149,5 @@ var transitionEffectsWeighted = [
 
     //[{effect: "spin", angle:  360, scale: 0.1, duration: "slow"},    0.5],
     //[{effect: "spin", angle: -360, scale: 0.1, duration: "slow"},    0.5],
-    //[{effect: "starwipe", angle: -360, scale: 0.1, duration: "slow"},    0.5],
-    [{effect: "starwipe", angle: -360, scale: 0.1, duration: 1000},    1],
+    [{effect: "starwipe", duration: 1000},    1],
 ];
