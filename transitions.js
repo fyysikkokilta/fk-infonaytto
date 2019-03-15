@@ -95,37 +95,34 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
 
   // reference for clip path animation: https://codepen.io/damianocel/pen/KdobyK
 
-  //console.log("adding css");
-  $(this)
-  //  .css({"-webkit-clip-path": show ? vertices_str_start : vertices_str_final })
-    //.css({"-webkit-transition": "all " + options.duration + "ms linear"});
-    .css({"transition": "all " + options.duration + "ms linear"});
-
+  // inject <style/> block which specifies star start/end position
   const cssName = "starWipeCSS";
   if(!($("#" + cssName ).length)) {
     var stl = document.createElement("style");
     stl.id = cssName;
     stl.type = "text/css";
     var css = "";
-    css += '.starStart { clip-path: ' + vertices_str_start + "; }";
     css += ' .starEnd { clip-path: ' + vertices_str_final + "; }";
+    css += '.starStart { clip-path: ' + vertices_str_start + "; }";
 
     stl.innerHTML = css;
     $("head").append(stl);
   }
 
+  $(this)
+    .css({"transition": "all " + options.duration + "ms linear"});
+
+
   //TODO: doesn't work on first time, looks okay after that...
-  //console.log("before: has start", $(this).hasClass("starStart"), "end", $(this).hasClass("starEnd"));
-  if(show) {
-    $(this).addClass("starEnd");
-    $(this).addClass("starStart");
-    $(this).removeClass("starStart");
-  } else {
-    $(this).addClass("starStart");
-    $(this).addClass("starEnd");
-    $(this).removeClass("starEnd");
-  }
-  //console.log("after: has start", $(this).hasClass("starStart"), "end", $(this).hasClass("starEnd"));
+
+  //console.log("classes before:", $(this)[0].classList);
+
+  $(this).removeClass("starStart");
+  $(this).removeClass("starEnd");
+
+  $(this).addClass(show ? "starEnd" : "starStart");
+
+  //console.log("classes after:", $(this)[0].classList);
 
   setTimeout(function() {
     //console.log("done");
