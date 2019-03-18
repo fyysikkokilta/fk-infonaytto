@@ -1,4 +1,5 @@
 //TODO: lörssiä tähän, star-wars tyyliset star wipet (fiin muotoinen star wipe), övereimmät powerpoint spinnaukset
+//see https://www.youtube.com/watch?v=cGqAu9gj_F0
 
 /*
  * spin + scale + fade effect like newspaper in the Simpsons, except 3D
@@ -136,6 +137,86 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
 
 } );
 
+/*
+ * clock wipe, using jQuery.Keyframes library
+ * options:
+ *      duration: duration in ms
+ *      clockwise: boolean indicating wipe direction (false for counterclockwise) (default true)
+ *      initialAngle: angle in degrees from where the clock wipe starts (0 for 12 o'clock, 180 for 6 o'clock)
+ */
+$.effects.define( "clockwipe", "toggle", function( options, done ) {
+  var show = options.mode === "show";
+  var clockwise = options.hasOwnProperty("clockwise") ? options["clockwise"] : true;
+  var initialAngle = options.hasOwnProperty("initialAngle") ? options["initialAngle"] : 0;
+
+  var origin = [this.offsetWidth / 2, this.offsetHeight /2];
+  //console.log(origin);
+
+  const maxRadius = Math.max.apply(null, origin) * 2;
+
+  // vertices of circle surrounding object to be wiped
+  var vertices = [];
+  const n_vertices = 32;
+  for(var i = 0; i <= n_vertices; i++) {
+    var a = i * 1.0 / n_vertices;
+    var x =  Math.sin((a + initialAngle / 360.0) * 2 * Math.PI);
+    var y = -Math.cos((a + initialAngle / 360.0) * 2 * Math.PI);
+    vertices.push([x, y]);
+  }
+
+  if(clockwise != show) {
+    vertices.reverse();
+  }
+
+  vertices_keyframes = vertices.map(function(x, i) {
+    return vertices.map(function(y, j) {
+      return i < j ? x : y;
+    });
+  });
+
+  if(!show) {
+    vertices_keyframes.reverse();
+  }
+
+  function get_keyframe_obj(verts) {
+    return {
+      "clip-path": "polygon(" + origin[0] + "px " + origin[1] + "px, " + verts.map(function(xy) {
+        return (xy[0] * maxRadius + origin[0]) + "px " + (xy[1] * maxRadius + origin[1]) + "px";
+      }).join(", ") + ")"
+    }
+  }
+
+  //console.log("vertices_keyframes", vertices_keyframes);
+
+  var keyframes_obj = {name: "clockwipe"};
+  vertices_keyframes.forEach(function(v, i) {
+    var key = (i * 1.0 / (vertices_keyframes.length - 1) * 100) + "%";
+    keyframes_obj[key] = get_keyframe_obj(v);
+  });
+  $.keyframe.define([keyframes_obj]);
+
+
+  //TODO: undefine keyframe after finished? (is it even possible?)
+
+  console.log("clockWipe:", show ? "show" : "hide");
+
+  const originalClipPath = $(this).css("clip-path");
+
+  const t = this;
+
+  $(this).playKeyframe({
+    name: "clockwipe",
+    duration: options.duration + "ms",
+    timingFunction: "linear",
+    complete: function() {
+      $(t).css({"clip-path": originalClipPath}); // reset original clip path
+      //console.log("done");
+      return done();
+    }
+  });
+
+});
+
 // list of all possible transitions
 var transitionEffectsWeighted = [
     [{effect: "blind", duration: "slow"},                       1],
@@ -177,4 +258,9 @@ var transitionEffectsWeighted = [
     [{effect: "spin3d", scale: 0, angleX : 180, angleY: -270, angleZ :  0, duration : 800},  0.2],
 
     [{effect: "starwipe", duration: 1000},    1],
+
+    [{effect: "clockwipe", duration: 1500, clockwise: true},  0.45],
+    [{effect: "clockwipe", duration: 1500, clockwise: false}, 0.15],
+    [{effect: "clockwipe", duration: 1500, clockwise: true, initialAngle:  180}, 0.2],
+    [{effect: "clockwipe", duration: 1500, clockwise: false, initialAngle: 180}, 0.2],
 ];
