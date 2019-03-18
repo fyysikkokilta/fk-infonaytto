@@ -138,27 +138,35 @@ $.effects.define( "starwipe", "toggle", function( options, done ) {
 } );
 
 /*
- * clock wipe
+ * clock wipe, using jQuery.Keyframes library
+ * options:
+ *      duration: duration in ms
+ *      clockwise: boolean indicating wipe direction (false for counterclockwise) (default true)
+ *      initialAngle: angle in degrees from where the clock wipe starts (0 for 12 o'clock, 180 for 6 o'clock)
  */
 $.effects.define( "clockwipe", "toggle", function( options, done ) {
-  //TODO: checkout https://github.com/Keyframes/jQuery.Keyframes
-  //TODO: direction (clockwise/counterclockwise) parameter?
   var show = options.mode === "show";
-
-  const pi = Math.PI;
+  var clockwise = options.hasOwnProperty("clockwise") ? options["clockwise"] : true;
+  var initialAngle = options.hasOwnProperty("initialAngle") ? options["initialAngle"] : 0;
 
   var origin = [this.offsetWidth / 2, this.offsetHeight /2];
   //console.log(origin);
 
-  const maxRadius = Math.max.apply(null, origin) * 0.5;
+  const maxRadius = Math.max.apply(null, origin) * 2;
 
-  // vertices of star
+  // vertices of circle surrounding object to be wiped
   var vertices = [];
-  [0, 1, 2, 3].forEach(function(i) {
-    var x =  Math.sin(i * 2 * pi / 4.0);
-    var y = -Math.cos(i * 2 * pi / 4.0);
+  const n_vertices = 32;
+  for(var i = 0; i <= n_vertices; i++) {
+    var a = i * 1.0 / n_vertices;
+    var x =  Math.sin((a + initialAngle / 360.0) * 2 * Math.PI);
+    var y = -Math.cos((a + initialAngle / 360.0) * 2 * Math.PI);
     vertices.push([x, y]);
-  });
+  }
+
+  if(clockwise != show) {
+    vertices.reverse();
+  }
 
   vertices_keyframes = vertices.map(function(x, i) {
     return vertices.map(function(y, j) {
@@ -166,86 +174,48 @@ $.effects.define( "clockwipe", "toggle", function( options, done ) {
     });
   });
 
+  if(!show) {
+    vertices_keyframes.reverse();
+  }
+
   function get_keyframe_obj(verts) {
     return {
-      "clip-path": "polygon(" + verts.map(function(xy) {
+      "clip-path": "polygon(" + origin[0] + "px " + origin[1] + "px, " + verts.map(function(xy) {
         return (xy[0] * maxRadius + origin[0]) + "px " + (xy[1] * maxRadius + origin[1]) + "px";
       }).join(", ") + ")"
     }
   }
 
-  console.log("vertices_keyframes", vertices_keyframes);
+  //console.log("vertices_keyframes", vertices_keyframes);
 
-  console.log("get_keyframe_obj(vertices_keyframes[1])", get_keyframe_obj(vertices_keyframes[1]));
-  $.keyframe.define([{
-    name: "clockwipe",
-    "0%":   get_keyframe_obj(vertices_keyframes[0]),
-    "25%":  get_keyframe_obj(vertices_keyframes[1]),
-    "50%":  get_keyframe_obj(vertices_keyframes[2]),
-    "75%":  get_keyframe_obj(vertices_keyframes[3]),
-    "100%": get_keyframe_obj(vertices_keyframes[3]),
-    }
-  ]);
+  var keyframes_obj = {name: "clockwipe"};
+  vertices_keyframes.forEach(function(v, i) {
+    var key = (i * 1.0 / (vertices_keyframes.length - 1) * 100) + "%";
+    keyframes_obj[key] = get_keyframe_obj(v);
+  });
+  $.keyframe.define([keyframes_obj]);
 
-  //TODO: undefine keyframe after finished?
+
+  //TODO: undefine keyframe after finished? (is it even possible?)
 
   console.log("clockWipe:", show ? "show" : "hide");
 
-  //function get_vertices_str(verts) {
-  //  //var verts = vertices.slice(start? 0 : 1, vertices.length);
-  //  //var verts = vertices.slice();
-  //  //if(start) {
-  //  //  verts[0] = verts[1];
-  //  //}
-  //  var ret = "polygon(" + origin[0] + "px " + origin[1] + "px, " + verts.map(function(xy) {
-  //    return (maxRadius * xy[0] + origin[0]) + "px " + (maxRadius * xy[1] + origin[1]) + "px ";
-  //  }).join(", ") + ")";
-  //  return ret;
-  //}
-
-  //var vertices_str_start = get_vertices_str(vertices_keyframes[0]);
-  ////var vertices_str_mid = get_vertices_str(vertices_keyframes[1]); //TODO
-  //var vertices_str_final = get_vertices_str(vertices_keyframes[3]);
-
-  var vertices_str_start = get_keyframe_obj(vertices_keyframes[0])["clip-path"];
-  var vertices_str_final = get_keyframe_obj(vertices_keyframes[3])["clip-path"];
-
-  //// reference for clip path animation: https://codepen.io/damianocel/pen/KdobyK
-
   const originalClipPath = $(this).css("clip-path");
-  // apply initial clip path
-  $(this)
-    .css({
-      "transition": "all " + options.duration + "ms linear",
-      "clip-path": show ? vertices_str_start : vertices_str_final,
-    }).css("clip-path"); // this needs to be here, otherwise doesn't work...
-
-  // apply final clip path, CSS3 takes care of the animation
-  //$(this).css("clip-path", show ? vertices_str_final : vertices_str_start);
 
   const t = this;
-
-  //setTimeout(function() {
-  //  // wait for the animation to finish
-
-  //  $(t).css({"clip-path": originalClipPath}); // clear up clip path in the end
-
-  //  //console.log("done");
-  //  done();
-  //}, 1.0*options.duration);
 
   $(this).playKeyframe({
     name: "clockwipe",
     duration: options.duration + "ms",
     timingFunction: "linear",
     complete: function() {
-      $(t).css({"clip-path": originalClipPath});
-      console.log("done");
+      $(t).css({"clip-path": originalClipPath}); // reset original clip path
+      //console.log("done");
       return done();
     }
   });
 
-} );
+});
 
 // list of all possible transitions
 var transitionEffectsWeighted = [
@@ -288,5 +258,9 @@ var transitionEffectsWeighted = [
     [{effect: "spin3d", scale: 0, angleX : 180, angleY: -270, angleZ :  0, duration : 800},  0.2],
 
     [{effect: "starwipe", duration: 1000},    1],
-    [{effect: "clockwipe", duration: 1000},    1],
+
+    [{effect: "clockwipe", duration: 1500, clockwise: true},  0.45],
+    [{effect: "clockwipe", duration: 1500, clockwise: false}, 0.15],
+    [{effect: "clockwipe", duration: 1500, clockwise: true, initialAngle:  180}, 0.2],
+    [{effect: "clockwipe", duration: 1500, clockwise: false, initialAngle: 180}, 0.2],
 ];
