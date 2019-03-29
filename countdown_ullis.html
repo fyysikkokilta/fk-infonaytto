@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=UnifrakturMaguntia" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url(../Ullanlinnanmäki_Vappuna.jpg);
+            background-size: cover; 
+        }
+        
+
+        #title {
+            font-family: UnifrakturMaguntia;
+            font-size: 125px;
+            color: #800040;
+            width: 56%;
+            margin: 80px 0 15px 0;
+        }
+
+        .text {
+            font-size: 22px;
+            padding-left: 10px;
+        }           
+
+        .row {
+            padding-left: 10%;
+        }
+
+        .score {
+            /*width and height of the circle*/
+            border-radius: 50%;
+            width: 140px;   
+            height: 140px;
+            font-family: UnifrakturMaguntia;
+        }
+        
+        .display {
+            background: #F3D4F0;
+            border: 2px solid #800040;
+            line-height: 0px;   /*with this line you can control the text inside circle*/
+            padding: 20px 0 0 0;      /*with this line you can control the text inside circle*/
+            margin-left: 8%
+        }
+
+        .number {
+            font-size: 60px;
+            color: #800040;
+            /*change the position of number*/
+            padding: 0 0 0 7px;   
+        }
+
+        #display_days{
+            padding-left: 26px;
+        }
+
+        #display_hours, #display_mins, #display_seconds  {
+            padding-left: 42.5px;
+        }
+
+        #days {
+            padding-left: 33.5px; 
+        }
+
+        #hours {
+            padding-left: 37px; 
+        }
+
+        #minutes {
+            padding-left: 22px; 
+        }
+
+        #seconds {
+            padding-left: 30px; 
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h1 class="mx-auto" id="title"></h1>
+
+    <div class="row">
+            <div class="display score"> 
+                    <h2 class="number" id="display_days"></h2>
+                    <br>
+                <span id="days" class="text">Päivää</span>
+            </div>
+
+            <div class="display score"x> 
+                    <h2 class="number" id="display_hours"></h2>
+                    <br>
+                <span id ="hours" class="text">Tuntia</span>
+            </div>
+
+            <div class="display score"x> 
+                    <h2 class="number" id="display_mins"></h2>
+                    <br>
+                <span id ="minutes" class="text">Minuuttia</span>
+            </div>
+
+            <div class="display score"x> 
+                    <h2 class="number" id="display_seconds"></h2>
+                    <br>
+                <span id ="seconds" class="text">Sekuntia</span>
+            </div>
+    </div>
+
+
+    <div id="instructions" style="display: none;">The URL should be something like <code>...<span id="filename"></span>/?title=Event Title&amp;timestamp=2938493284</code>, where <code>Event Title</code> is the title of your event and <code>timestamp</code> is the time you're counting down to, in seconds since 1st of January 1970.</div>
+    <div id="errorMessage"></div>
+</body>
+<script type="text/javascript">
+var params = new URLSearchParams(window.location.search);
+//TODO: add parameter for background image?
+if(!params.has("title") || !params.has("timestamp")) {
+    var url = window.location.pathname;
+    var filename = url.substring(url.lastIndexOf("/"));
+    document.getElementById("filename").innerHTML = filename;
+    document.getElementById("instructions").style.display = "block";
+} else {
+    document.getElementById("title").innerHTML = params.get("title");
+    var timestamp = parseInt(params.get("timestamp"));
+    if(isNaN(timestamp)) {
+        document.getElementById("errorMessage").innerHTML = "Error parsing timestamp.";
+    } else {
+        setInterval(function() {
+            // why doesn't javascript have a timedelta formatting function...
+            var dt = timestamp - new Date().getTime() / 1000; // delta time in seconds
+            var d = (Math.floor(dt / (60 * 60 * 24))+ "").padStart(3, "0");;
+            var h = (Math.floor(dt / (60 * 60) - 24*d) + "").padStart(2, "0");
+            var m = (Math.floor(dt / (60) - 60 * h - 24 * 60 * d)+ "").padStart(2, "0");;
+            var s = (Math.floor(dt - 60 * m - 60 * 60 * h - 24 * 60 * 60 * d)+ "").padStart(2, "0");;
+
+            document.getElementById("display_days").innerHTML = d;
+            document.getElementById("display_hours").innerHTML = h;
+            document.getElementById("display_mins").innerHTML = m;
+            document.getElementById("display_seconds").innerHTML = s;
+        }, 100);
+    }
+}
+</script>
+</html>
