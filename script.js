@@ -13,6 +13,7 @@
 //TODO: HSL aikataulu ei aina toimi
 //TODO: ohjeet readme:hen
 //TODO: muisti vuotaa... ks. https://stackoverflow.com/questions/18644462/avoiding-memory-leaks-loading-content-into-an-iframe -- ainakin HSL sivu aiheuttaa (jos mahdolliset urlit naytto2.html ja hslURLGenerator niin muisti vuotaa)
+//TODO: ruokalistat
 var index = 0;
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
@@ -20,11 +21,13 @@ var currentIframeIsTop = true;
 var fadeTime = 500;
 var loadWaitTime = 500; // wait this long for pages to load in background
 var urlManager = new URLManager();
+topIframe.src = urlManager.getURL();
+botIframe.src = urlManager.getURL();
 
 function newSite() {
     var url = urlManager.getURL();
 
-    targetFrame = currentIframeIsTop ? botIframe : topIframe;
+    var targetFrame = currentIframeIsTop ? botIframe : topIframe;
     targetFrame.src = "about:blank";
     targetFrame.src = url;
 

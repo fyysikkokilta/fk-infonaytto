@@ -15,14 +15,19 @@ function weighted_idx(weights) {
     return cum_w.findIndex(function(w) { return w > r; });
 }
 
-function weighted_choice(pairs) {
+function weighted_choice(pairs, return_index = false) {
     /*
      * Given a list of pairs [[a0, w0], [a1, w1], ...],
      * randomly select an element ai with probability weighted by wi.
      * The weights don't need to sum to 1, they are just relative weights.
      */
     var weights = pairs.map(function(x) { return x[1]; });
-    return pairs[weighted_idx(weights)][0];
+    var i = weighted_idx(weights);
+    if(return_index) {
+        return i;
+    } else {
+        return pairs[i][0];
+    }
 }
 
 // test, should print ~2.0 and ~3.0
