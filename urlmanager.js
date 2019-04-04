@@ -12,7 +12,7 @@ var urls = [
     HSLTimetableURLGenerator,
     "https://en.wikipedia.org/wiki/Special:Random",
     "tgpost.html",
-    "countdown.html?title=Aikaa wappuun&timestamp=1556658000", // TODO: generate timestamp based on year, weight by time until wappu
+    "countdown_ullis.html?title=Aikaa wappuun&timestamp=1556658000", // TODO: generate timestamp based on year, weight by time until wappu
 ];
 
 var maxRecentUrls = Math.min(MAX_RECENT_URLS, urls.length - 1);
