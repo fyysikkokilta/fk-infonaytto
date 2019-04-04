@@ -12,6 +12,7 @@
 //TODO: generaattori + CSS countdown.html:lle
 //TODO: HSL aikataulu ei aina toimi
 //TODO: ohjeet readme:hen
+//TODO: muisti vuotaa... ks. https://stackoverflow.com/questions/18644462/avoiding-memory-leaks-loading-content-into-an-iframe -- ainakin HSL sivu aiheuttaa (jos mahdolliset urlit naytto2.html ja hslURLGenerator niin muisti vuotaa)
 var index = 0;
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
@@ -23,11 +24,9 @@ var urlManager = new URLManager();
 function newSite() {
     var url = urlManager.getURL();
 
-    if(currentIframeIsTop) {
-        botIframe.src = url;
-    } else {
-        topIframe.src = url;
-    }
+    targetFrame = currentIframeIsTop ? botIframe : topIframe;
+    targetFrame.src = "about:blank";
+    targetFrame.src = url;
 
     setTimeout(function() {
         // TODO: consider using $(...).load(...) instead of this,
