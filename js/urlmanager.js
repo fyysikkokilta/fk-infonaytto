@@ -15,7 +15,8 @@ var urlsWeighted = [
     [PerjantaiURL, 1],
 ];
 
-var maxRecentUrls = Math.min(MAX_RECENT_URLS, urlsWeighted.length - 1);
+// -2 because of PerjantaiURL which can be invalid on certain days
+var maxRecentUrls = Math.min(MAX_RECENT_URLS, urlsWeighted.length - 2);
 
 class URLManager {
     constructor() {
