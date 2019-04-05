@@ -1,5 +1,4 @@
-// this many of the last displayed urls are discarded when selecting the next one.
-const MAX_RECENT_URLS = 3;
+// URL manager class
 
 // This list can have either strings or functions that generate an URL string.
 // The URLManager.getURL method takes care of finding out which is the case and

@@ -13,12 +13,10 @@
 //TODO: 'kiltiksellä soi nyt' -- ks https://developer.spotify.com/documentation/web-api/reference/player/get-the-users-currently-playing-track/ http://kylebrumm.com/spotifyCurrentlyPlaying.js/
 //TODO: tgpost.html on joskus tyhjä
 //TODO: kahvibot
-var index = 0;
+
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
 var currentIframeIsTop = true;
-var fadeTime = 500;
-var loadWaitTime = 500; // wait this long for pages to load in background
 var urlManager = new URLManager();
 topIframe.src = urlManager.getURL();
 botIframe.src = urlManager.getURL();
@@ -42,7 +40,7 @@ function newSite() {
             $(topIframe).show(transition);
         }
         currentIframeIsTop = !currentIframeIsTop;
-    }, loadWaitTime);
+    }, LOAD_WAIT_TIME);
 }
 
-//setInterval ( newSite, 10000);
+setInterval ( newSite, TRANSITION_INTERVAL*1e3);
