@@ -13,6 +13,7 @@
 //TODO: 'kiltiksellä soi nyt' -- ks https://developer.spotify.com/documentation/web-api/reference/player/get-the-users-currently-playing-track/ http://kylebrumm.com/spotifyCurrentlyPlaying.js/
 //TODO: tgpost.html on joskus tyhjä
 //TODO: kahvibot
+//TODO: 'haluatko viestisi tähän?'/palaute -slide
 
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
