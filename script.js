@@ -14,6 +14,7 @@
 //TODO: ohjeet readme:hen
 //TODO: muisti vuotaa... ks. https://stackoverflow.com/questions/18644462/avoiding-memory-leaks-loading-content-into-an-iframe -- ainakin HSL sivu aiheuttaa (jos mahdolliset urlit naytto2.html ja hslURLGenerator niin muisti vuotaa)
 //TODO: ruokalistat
+//TODO: 'kiltiksellä soi nyt' -- ks https://developer.spotify.com/documentation/web-api/reference/player/get-the-users-currently-playing-track/ http://kylebrumm.com/spotifyCurrentlyPlaying.js/
 var index = 0;
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
