@@ -12,6 +12,7 @@ var urlsWeighted = [
     ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider https://github.com/patelnav/wiki-embed
     ["html/tgpost.html", 0.5],
     ["html/countdown/countdown_ullis.html?title=Aikaa wappuun&timestamp=1556658000", 1.], // TODO: generate timestamp based on year, weight by time until wappu
+    [PerjantaiURL, 1],
 ];
 
 var maxRecentUrls = Math.min(MAX_RECENT_URLS, urlsWeighted.length - 1);
@@ -25,7 +26,7 @@ class URLManager {
         var i;
         do {
             i = weighted_choice(urlsWeighted, true);
-        } while (i == undefined || i == this.index || this.recentUrls.includes(i));
+        } while (!this.check_index(i));
 
         if(this.recentUrls.length >= maxRecentUrls) {
             this.recentUrls.shift(); // pop first element
@@ -39,5 +40,17 @@ class URLManager {
         }
         //console.log("url:", url, "index:", i, "recents:", this.recentUrls);
         return url;
+    }
+
+    check_index(i) {
+        // check whether a given index leads to a valid url
+        if(i == undefined) return false;
+        if(i == this.index) return false;
+        if(this.recentUrls.includes(i)) return false;
+
+        var url = urlsWeighted[i][0];
+        if(url == PerjantaiURL && (new Date()).getDay() != 5) return false;
+
+        return true;
     }
 };

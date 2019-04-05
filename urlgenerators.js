@@ -25,3 +25,5 @@ HSLTimetableURLGenerator = function () {
     url += "&title=" + encodeURIComponent(titles[randint(titles.length)]);
     return url;
 }
+
+const PerjantaiURL = "html/perjantai/perjantai.html";
