@@ -1,5 +1,5 @@
 // this many of the last displayed urls are discarded when selecting the next one.
-const MAX_RECENT_URLS = 4;
+const MAX_RECENT_URLS = 3;
 
 // This list can have either strings or functions that generate an URL string.
 // The URLManager.getURL method takes care of finding out which is the case and
@@ -7,12 +7,15 @@ const MAX_RECENT_URLS = 4;
 var urlsWeighted = [
     //["example.com", 9999], // local file
     //["html/naytto2.html", 9999], // local file
-    ["html/inspirobot.html", 0.5],
+    ["html/inspirobot.html", 0.1],
     [HSLTimetableURLGenerator, 2],
     ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider https://github.com/patelnav/wiki-embed
     ["html/tgpost.html", 0.5],
     ["html/countdown/countdown_ullis.html?title=Aikaa wappuun&timestamp=1556658000", 1.], // TODO: generate timestamp based on year, weight by time until wappu
-    [PerjantaiURL, 1],
+    [PerjantaiURL, 0.2],
+    //["https://kanttiinit.fi", 2], //TODO: see https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=52,12&days=2019-04-05
+    //["https://www.inkubio.fi/kiltiscam/", 0.5],
+    //["https://www.inkubio.fi/kiltiscam/kiltahuone.jpg", 0.5], //TODO: own html file for this to fit image
 ];
 
 // -2 because of PerjantaiURL which can be invalid on certain days
