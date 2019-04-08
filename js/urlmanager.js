@@ -12,6 +12,7 @@ var urlsWeighted = [
     ["html/tgpost.html", 0.5],
     ["html/countdown/countdown_ullis.html?title=Aikaa wappuun&timestamp=1556658000", 1.], // TODO: generate timestamp based on year, weight by time until wappu
     [PerjantaiURL, 0.2],
+    ["html/calendar/calendar.html", 1]
     //["https://kanttiinit.fi", 2], //TODO: see https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=52,12&days=2019-04-05
     //["https://www.inkubio.fi/kiltiscam/", 0.5],
     //["https://www.inkubio.fi/kiltiscam/kiltahuone.jpg", 0.5], //TODO: own html file for this to fit image
