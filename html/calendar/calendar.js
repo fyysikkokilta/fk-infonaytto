@@ -1,16 +1,31 @@
 // HUOM! Kalenteria vastaava markup pitää laittaa
 // calendar.html-tiedostoon, jos määrä muuttuu.
 var cids = [
-    'milan.kacurak@gmail.com',
-    'milan.kacurak@gmail.com',
+    'u6eju2k63ond2fs7fqvjbna50c@group.calendar.google.com',
+    '0p9orculc8m8ocnfec11mb6ksk@group.calendar.google.com',
+    'guqva296aoq695aqgq68ak7lkc@group.calendar.google.com',
+    'hjhvblcv9n1ue3tf29j3loqqi4@group.calendar.google.com',
+    '0orqvov2gidl3m24cnsq4ml1ao@group.calendar.google.com',
+    'ahe0vjbi6j16p25rcftgfou5eg@group.calendar.google.com',
+    'ji339ebgiaauv5nk07g41o65q8@group.calendar.google.com',
 ];
 var keys = [
-    'AIzaSyCR3-ptjHE-_douJsn8o20oRwkxt-zHStY',
-    'AIzaSyCR3-ptjHE-_douJsn8o20oRwkxt-zHStY',
+    'AIzaSyAwPCF5apsMfeIHQpYyteYnh9C5ltBT960',
+    'AIzaSyAwPCF5apsMfeIHQpYyteYnh9C5ltBT960',
+    'AIzaSyAwPCF5apsMfeIHQpYyteYnh9C5ltBT960',
+    'AIzaSyAwPCF5apsMfeIHQpYyteYnh9C5ltBT960',
+    'AIzaSyAwPCF5apsMfeIHQpYyteYnh9C5ltBT960',
+    'AIzaSyAwPCF5apsMfeIHQpYyteYnh9C5ltBT960',
+    'AIzaSyAwPCF5apsMfeIHQpYyteYnh9C5ltBT960',
 ];
 var titles = [
-    'Test',
-    'Test2',
+    'Fuksit',
+    'Kulttuuri',
+    'Kokoukset',
+    'Jotkut4',
+    'Liikunta',
+    'Tapahtumat',
+    'Ura ja opinnot',
 ];
 
 //calendarUrl: 'https://www.googleapis.com/calendar/v3/calendars/milan.kacurak@gmail.com/events?key=AIzaSyCR3-ptjHE-_douJsn8o20oRwkxt-zHStY',
@@ -26,9 +41,8 @@ function printCalendar(cid, key, title, index) {
       recurringEvents: true,
       itemsTagName: 'li',
       upcomingSelector: '#calendar' + index,
-      pastSelector: '#events-past',
       upcomingHeading: '<h2>' + title + '</h2>',
-      format: ['*date*', ': ', '*summary*', ' — ', '*description*', ' in ', '*location*'],
+      format: ['*date*', ': ', '*summary*'/*, ' — ', '*description*', ' @ ', '*location*'*/],
       timeMin: '2016-06-03T10:00:00-07:00',
       timeMax: '2020-06-03T10:00:00-07:00'
     });
