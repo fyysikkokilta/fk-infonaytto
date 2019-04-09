@@ -353,8 +353,7 @@ window.formatGoogleCalendar = function () {
             formattedTime = ' ' + getFormattedTime(dateStart) + ' - ' + getFormattedTime(dateEnd);
         }
 
-        //month day, year time-time
-        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '.' + dateStart[2] + formattedTime;
+        return dayNameStart + dateStart[0] + '.' + (dateStart[1]+1) + '.' + dateStart[2] + formattedTime;
     };
 
     var formatDateOneDay = function formatDateOneDay(dateStart, dayNames) {
@@ -364,7 +363,7 @@ window.formatGoogleCalendar = function () {
             dayName = getDayNameFormatted(dateStart);
         }
         //month day, year
-        return dayName + dateStart[0] + '.' + dateStart[1] + '.' + dateStart[2];
+        return dayName + dateStart[0] + '.' + (dateStart[1]+1) + '.' + dateStart[2];
     };
 
     var formatDateDifferentDay = function formatDateDifferentDay(dateStart, dateEnd, dayNames) {
@@ -375,8 +374,8 @@ window.formatGoogleCalendar = function () {
             dayNameStart = getDayNameFormatted(dateStart);
             dayNameEnd = getDayNameFormatted(dateEnd);
         }
-        //month day-day, year
-        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '-' + dateEnd[0] + '.' + dateStart[1] + '.' + dateStart[2];
+
+        return dayNameStart + dateStart[0] + '.' + (dateStart[1]+1) + '-' + dateEnd[0] + '.' + (dateStart[1]+1) + '.' + dateStart[2];
     };
 
     var formatDateDifferentMonth = function formatDateDifferentMonth(dateStart, dateEnd, dayNames) {
@@ -388,7 +387,7 @@ window.formatGoogleCalendar = function () {
             dayNameEnd = getDayNameFormatted(dateEnd);
         }
         //month day - month day, year
-        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '-' + dayNameEnd + dateEnd[0] + '.' + dateEnd[1] + '.' + dateStart[2];
+        return dayNameStart + dateStart[0] + '.' + (dateStart[1]+1) + '-' + dayNameEnd + dateEnd[0] + '.' + (dateEnd[1]+1) + '.' + dateStart[2];
     };
 
     var formatDateDifferentYear = function formatDateDifferentYear(dateStart, dateEnd, dayNames) {
@@ -400,7 +399,7 @@ window.formatGoogleCalendar = function () {
             dayNameEnd = getDayNameFormatted(dateEnd);
         }
         //day month,year
-        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '.' + dateStart[2] + '-' + dayNameEnd + dateEnd[0] + '.' + dateEnd[1] + '.' + dateEnd[2];
+        return dayNameStart + dateStart[0] + '.' + (dateStart[1]+1) + '.' + dateStart[2] + '-' + dayNameEnd + dateEnd[0] + '.' + (dateEnd[1]+1) + '.' + dateEnd[2];
     };
 
     //Check differences between dates and format them
