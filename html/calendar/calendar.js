@@ -42,7 +42,7 @@ function printCalendar(cid, key, title, index) {
       itemsTagName: 'li',
       upcomingSelector: '#calendar' + index,
       upcomingHeading: '<h2>' + title + '</h2>',
-      format: ['*date*', ': ', '*summary*'/*, ' — ', '*description*', ' @ ', '*location*'*/],
+      format: ['*date*', ':&nbsp', '*summary*'/*, ' — ', '*description*', ' @ ', '*location*'*/],
       timeMin: '2016-06-03T10:00:00-07:00',
       timeMax: '2020-06-03T10:00:00-07:00'
     });
