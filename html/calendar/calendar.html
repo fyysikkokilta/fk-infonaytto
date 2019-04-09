@@ -10,15 +10,19 @@
 <!-- TODO: Smarter layout for potentially more events -->
 
 <div id="calendars" >
-    <ul id="calendar0"></ul>
-    <ul id="calendar1"></ul>
-    <ul id="calendar2"></ul>
-    <ul id="calendar3"></ul>
-    <ul id="calendar4"></ul>
-    <ul id="calendar5"></ul>
-    <ul id="calendar6"></ul>
+    <div id="sec0">
+        <ul class="calendar" id="calendar5"></ul>
+        <ul class="calendar" id="calendar6"></ul>
+    </div>
+    <div id="sec1">
+        <ul class="calendar" id="calendar0"></ul>
+        <ul class="calendar" id="calendar1"></ul>
+        <ul class="calendar" id="calendar2"></ul>
+        <ul class="calendar" id="calendar3"></ul>
+        <ul class="calendar" id="calendar4"></ul>
+    </div>
     <script src="../../lib/jquery-3.3.1.min.js"></script>
-    <script src="../../lib/format-google-calendar.js"></script>
+    <script src="format-google-calendar.js"></script>
     <script src="calendar.js"></script>
 </div>
 </body>

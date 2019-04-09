@@ -149,7 +149,7 @@ window.formatGoogleCalendar = function () {
             upcomingElem.insertAdjacentHTML('beforebegin', settings.upcomingHeading);
         }
 
-        if (pastElem.firstChild) {
+        if (pastElem != null || pastElem.firstChild) {
             pastElem.insertAdjacentHTML('beforebegin', settings.pastHeading);
         }
     };
@@ -257,11 +257,11 @@ window.formatGoogleCalendar = function () {
             format[i] = format[i].toString();
 
             if (format[i] === '*summary*') {
-                output = output.concat('<span class="summary" style="color:#e6b800;">' + summary + '</span>');
+                output = output.concat('<span class="summary">' + summary + '</span>');
             } else if (format[i] === '*date*') {
-                output = output.concat('<span class="date" style="font-family:monospace;">' + dateFormatted + '</span>');
+                output = output.concat('<span class="date" >' + dateFormatted + '</span>');
             } else if (format[i] === '*description*') {
-                output = output.concat('<span class="description" style="color:blue">' + description + '</span>');
+                output = output.concat('<span class="description">' + description + '</span>');
             } else if (format[i] === '*location*') {
                 output = output.concat('<span class="location">' + location + '</span>');
             } else {
@@ -350,11 +350,11 @@ window.formatGoogleCalendar = function () {
         }
 
         if (config.sameDayTimes && !moreDaysEvent && !isAllDayEvent) {
-            formattedTime = ' from ' + getFormattedTime(dateStart) + ' - ' + getFormattedTime(dateEnd);
+            formattedTime = ' ' + getFormattedTime(dateStart) + ' - ' + getFormattedTime(dateEnd);
         }
 
         //month day, year time-time
-        return dayNameStart + dateStart[0] + '/' + dateStart[1] + '/' + dateStart[2] + formattedTime;
+        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '.' + dateStart[2] + formattedTime;
     };
 
     var formatDateOneDay = function formatDateOneDay(dateStart, dayNames) {
@@ -364,7 +364,7 @@ window.formatGoogleCalendar = function () {
             dayName = getDayNameFormatted(dateStart);
         }
         //month day, year
-        return dayName + dateStart[0] + '/' + dateStart[1] + '/' + dateStart[2];
+        return dayName + dateStart[0] + '.' + dateStart[1] + '.' + dateStart[2];
     };
 
     var formatDateDifferentDay = function formatDateDifferentDay(dateStart, dateEnd, dayNames) {
@@ -376,7 +376,7 @@ window.formatGoogleCalendar = function () {
             dayNameEnd = getDayNameFormatted(dateEnd);
         }
         //month day-day, year
-        return dayNameStart + dateStart[0] + '/' + dateStart[1] + '-' + dayNameEnd + dateEnd[0] + '/' + dateStart[2];
+        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '-' + dateEnd[0] + '.' + dateStart[1] + '.' + dateStart[2];
     };
 
     var formatDateDifferentMonth = function formatDateDifferentMonth(dateStart, dateEnd, dayNames) {
@@ -388,7 +388,7 @@ window.formatGoogleCalendar = function () {
             dayNameEnd = getDayNameFormatted(dateEnd);
         }
         //month day - month day, year
-        return dayNameStart + dateStart[0] + '/' + dateStart[1] + '-' + dayNameEnd + dateEnd[0] + '/' + dateEnd[1] + '/' + dateStart[2];
+        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '-' + dayNameEnd + dateEnd[0] + '.' + dateEnd[1] + '.' + dateStart[2];
     };
 
     var formatDateDifferentYear = function formatDateDifferentYear(dateStart, dateEnd, dayNames) {
@@ -400,7 +400,7 @@ window.formatGoogleCalendar = function () {
             dayNameEnd = getDayNameFormatted(dateEnd);
         }
         //day month,year
-        return dayNameStart + dateStart[0] + '/' + dateStart[1] + '/' + dateStart[2] + '-' + dayNameEnd + dateEnd[0] + '/' + dateEnd[1] + '/' + dateEnd[2];
+        return dayNameStart + dateStart[0] + '.' + dateStart[1] + '.' + dateStart[2] + '-' + dayNameEnd + dateEnd[0] + '.' + dateEnd[1] + '.' + dateEnd[2];
     };
 
     //Check differences between dates and format them
