@@ -1,106 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=UnifrakturMaguntia" rel="stylesheet">
-
-    <style>
-        body {
-            background-image: url(Ullanlinnanmäki_Vappuna.jpg);
-            background-size: cover; 
-        }
-        
-
-        #title {
-            font-family: UnifrakturMaguntia;
-            font-size: 125px;
-            color: #800040;
-            width: 56%;
-            margin: 80px 0 15px 0;
-        }
-
-        .text {
-            font-size: 22px;
-            padding-left: 10px;
-        }           
-
-        .row {
-            padding-left: 10%;
-        }
-
-        .score {
-            /*width and height of the circle*/
-            border-radius: 50%;
-            width: 140px;   
-            height: 140px;
-            font-family: UnifrakturMaguntia;
-        }
-        
-        .display {
-            background: #F3D4F0;
-            border: 2px solid #800040;
-            line-height: 0px;   /*with this line you can control the text inside circle*/
-            padding: 20px 0 0 0;      /*with this line you can control the text inside circle*/
-            margin-left: 8%
-        }
-
-        .number {
-            font-size: 60px;
-            color: #800040;
-            /*change the position of number*/
-            padding: 0 0 0 7px;   
-        }
-
-        #display_days{
-            padding-left: 26px;
-        }
-
-        #display_hours, #display_mins, #display_seconds  {
-            padding-left: 42.5px;
-        }
-
-        #days {
-            padding-left: 33.5px; 
-        }
-
-        #hours {
-            padding-left: 37px; 
-        }
-
-        #minutes {
-            padding-left: 22px; 
-        }
-
-        #seconds {
-            padding-left: 30px; 
-        }
-        
-    </style>
+    <link rel="stylesheet" type="text/css" href="wappu.css">
 </head>
 <body>
 
     <h1 class="mx-auto" id="title"></h1>
 
     <div class="row">
-            <div class="display score"> 
+            <div class="display score">
                     <h2 class="number" id="display_days"></h2>
                     <br>
                 <span id="days" class="text">Päivää</span>
             </div>
 
-            <div class="display score"x> 
+            <div class="display score"x>
                     <h2 class="number" id="display_hours"></h2>
                     <br>
                 <span id ="hours" class="text">Tuntia</span>
             </div>
 
-            <div class="display score"x> 
+            <div class="display score"x>
                     <h2 class="number" id="display_mins"></h2>
                     <br>
                 <span id ="minutes" class="text">Minuuttia</span>
             </div>
 
-            <div class="display score"x> 
+            <div class="display score"x>
                     <h2 class="number" id="display_seconds"></h2>
                     <br>
                 <span id ="seconds" class="text">Sekuntia</span>
