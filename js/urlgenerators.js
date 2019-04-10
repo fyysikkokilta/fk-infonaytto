@@ -33,4 +33,9 @@ HSLTimetableURLGenerator = function () {
     return url;
 }
 
-const PerjantaiURL = "html/perjantai/perjantai.html";
+const PerjantaiURLGenerator = function() {
+    // return false if it is not friday, urlmanager checks for this
+    if((new Date()).getDay() != 5) return false;
+
+    return "html/perjantai/perjantai.html";
+}

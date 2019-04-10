@@ -11,19 +11,19 @@ var urlsWeighted = [
     ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider https://github.com/patelnav/wiki-embed
     ["html/tgpost.html", 0.5],
     ["html/countdown/countdown_ullis.html?title=Aikaa wappuun&timestamp=1556658000", 1.], // TODO: generate timestamp based on year, weight by time until wappu
-    [PerjantaiURL, 0.2],
-    //["https://kanttiinit.fi", 2], //TODO: see https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=52,12&days=2019-04-05
+    [PerjantaiURLGenerator, 0.2],
+    //["htlm/kanttiinit.html", 2], //TODO
     //["https://www.inkubio.fi/kiltiscam/", 0.5],
     //["https://www.inkubio.fi/kiltiscam/kiltahuone.jpg", 0.5], //TODO: own html file for this to fit image
 ];
 
-// -2 because of PerjantaiURL which can be invalid on certain days
-var maxRecentUrls = Math.min(MAX_RECENT_URLS, urlsWeighted.length - 2);
+// -2 because PerjantaiURLGenerator can be invalid on certain days
+const maxRecentUrls = Math.min(MAX_RECENT_URLS, urlsWeighted.length - 2);
 
 class URLManager {
     constructor() {
-        this.index = 0;
-        this.recentUrls = [0];
+        this.index = -1;
+        this.recentUrls = [];
     }
     getURL() {
         var i;
@@ -48,11 +48,13 @@ class URLManager {
     check_index(i) {
         // check whether a given index leads to a valid url
         if(i == undefined) return false;
-        if(i == this.index) return false;
-        if(this.recentUrls.includes(i)) return false;
+        if(i == this.index && maxRecentUrls >= 1) return false;
+        if(this.recentUrls.includes(i) && maxRecentUrls >= 1) return false;
 
+        // some url generators such as PerjantaiURLGenerator return null or undefined or false if they're not applicable right now
         var url = urlsWeighted[i][0];
-        if(url == PerjantaiURL && (new Date()).getDay() != 5) return false;
+        url = typeof(url) == "function" ? url() : url;
+        if(!Boolean(url)) return false;
 
         return true;
     }
