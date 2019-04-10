@@ -195,9 +195,6 @@ $.effects.define( "clockwipe", "toggle", function( options, done ) {
   });
   $.keyframe.define([keyframes_obj]);
 
-
-  //TODO: undefine keyframe after finished? (is it even possible?)
-
   //console.log("clockWipe:", show ? "show" : "hide");
 
   const originalClipPath = $(this).css("clip-path");

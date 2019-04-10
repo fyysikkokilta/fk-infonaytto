@@ -15,7 +15,6 @@ body {
 </body>
 <script type="text/javascript">
 var params = new URLSearchParams(window.location.search);
-//TODO: add parameter for background image?
 if(!params.has("title") || !params.has("timestamp")) {
     var url = window.location.pathname;
     var filename = url.substring(url.lastIndexOf("/"));
@@ -34,7 +33,6 @@ if(!params.has("title") || !params.has("timestamp")) {
             var h = Math.floor(dt / (60 * 60) - 24*d);
             var m = Math.floor(dt / (60) - 60 * h - 24 * 60 * d);
             var s = Math.floor(dt - 60 * m - 60 * 60 * h - 24 * 60 * 60 * d);
-            //TODO: parametrize 'päivää'?
             var str = d + " päivää ";
             str +=       (h + "").padStart(2, "0")
             str += ":" + (m + "").padStart(2, "0")
