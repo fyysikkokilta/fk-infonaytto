@@ -5,7 +5,7 @@
  * in the main HTML file.
  */
 
-HSLTimetableURLGenerator = function () {
+HSLTimetableURLGenerator = function() {
     // Generate HSL timetable with random title
 
     var titlesWeighted = [
@@ -78,5 +78,17 @@ const WappuURLGenerator = function() {
     var url = "html/wappu/countdown_ullis.html";
     url += "?title=" + weighted_choice(wappu_countdown_titles);
     url += "&timestamp=" + timestamp;
+    return url;
+}
+
+const TelegramURLGenerator = function() {
+    const chat_usernames = [
+        ["fk_infonaytto", 1],
+        //["fklors", 1.], //TODO
+    ];
+
+    var url = "html/tgpost.html";
+    url += "?chat_username=" + weighted_choice(chat_usernames);
+    //url += "&n_messages_to_show=" + n_tg_messages_to_show; // defined in config.js
     return url;
 }

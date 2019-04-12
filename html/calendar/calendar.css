@@ -1,0 +1,45 @@
+body
+{
+background-color:darkslategray;
+}
+#calendars
+{
+width:100%;
+color:lightgray;
+}
+
+.calendar
+{
+}
+
+#sec0
+{
+    float:left;
+    width:35%;
+    padding-top:6%;
+    padding-left:10%;
+    text-align:left;
+}
+#sec1
+{
+    float:right;
+    width:35%;
+    padding-top:6%;
+    padding-right:10%;
+    text-align:left;
+}
+
+.summary
+{
+color:#e6b800;
+}
+
+.date
+{
+font-family:monospace;
+line-height:27px;
+}
+.description
+{
+color:blue
+}

@@ -13,6 +13,9 @@ var urlsWeighted = [
     [WappuURLGenerator, 1.],
     [PerjantaiURLGenerator, 0.2],
     //["html/kanttiinit.html", 2], //TODO
+    [TelegramURLGenerator, 0.5],
+    ["html/calendar/calendar.html", 1]
+    //["https://kanttiinit.fi", 2], //TODO: see https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=52,12&days=2019-04-05
     //["https://www.inkubio.fi/kiltiscam/", 0.5],
     //["https://www.inkubio.fi/kiltiscam/kiltahuone.jpg", 0.5], //TODO: own html file for this to fit image
 ];

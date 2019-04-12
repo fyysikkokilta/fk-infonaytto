@@ -3,15 +3,26 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="calendar.css">
 </head>
-<body style="background: white;">
+<body>
 <!-- Step 2: Create HTML markup -->
-<div align="center" width="50%">
-<ul id="calendar0"></ul>
-<ul id="calendar1"></ul>
-<ul id="events-past"></ul>
+<!-- TODO: Smarter layout for potentially more events -->
+
+<div id="calendars" >
+    <div id="sec0">
+        <ul class="calendar" id="calendar5"></ul>
+        <ul class="calendar" id="calendar6"></ul>
+    </div>
+    <div id="sec1">
+        <ul class="calendar" id="calendar0"></ul>
+        <ul class="calendar" id="calendar1"></ul>
+        <ul class="calendar" id="calendar2"></ul>
+        <ul class="calendar" id="calendar3"></ul>
+        <ul class="calendar" id="calendar4"></ul>
+    </div>
     <script src="../../lib/jquery-3.3.1.min.js"></script>
-    <script src="../../lib/format-google-calendar.min.js"></script>
+    <script src="format-google-calendar.js"></script>
     <script src="calendar.js"></script>
 </div>
 </body>

@@ -1,25 +1,82 @@
 <!DOCTYPE html>
 <html>
+    <head>
+    <meta charset="utf-8">
+    <script src="../lib/jquery-3.3.1.min.js"></script>
+    </head>
 <body style="background: white;">
     <div id="tg-script-container"></div>
 </body>
 
 <script type="text/javascript">
-    // embed a random telegram post from the first 100000 posts in fk lörs.
-    //TODO: how to figure out latest message?
-    updateMessage = function() {
-        // construct script tag simlar to the embed code box in https://core.telegram.org/widgets/posts
-        var script = document.createElement("script");
-        script.async = true;
-        script.src = "https://telegram.org/js/telegram-widget.js?5";
-        script.dataset.telegramPost = "fklors/" + Math.floor(Math.random() * 100000);
-        script.dataset.width = "100%";
+    //TODO: stylesheet, scroll to bottom if messages are too tall, spacing between elemes
+    const params = new URLSearchParams(window.location.search);
+    if(!params.has("chat_username")) {
+        //TODO: show this in HTML? (see countdown_template.html)
+        console.error("missing chat_username in URL.");
+    }
+    const chat_username = params.get("chat_username");
+    //console.log("chat_username", chat_username);
+    const n_messages_to_show = params.has("n_messages_to_show") ? params.get("n_messages_to_show") : 3;
 
-        var container = document.getElementById("tg-script-container");
-        while(container.firstChild) { container.removeChild(container.firstChild); }
-        container.appendChild(script);
+    var previous_message_ids = {};
+
+    updateMessage = function() {
+
+        /*
+            To make this work, do the following:
+                on crhome: launch with --allow-file-access-from-files --allow-file-access --allow-cross-origin-auth-prompt (https://superuser.com/questions/1217863/how-can-i-prevent-chrome-from-enforcing-cors-for-one-specific-file-url) (untested)
+                on firefox: go to about:config and disable security.fileuri.strict_origin_policy
+        */
+        //TODO: print something if the file is missing or if the chat_username is invalid (fail callback)
+        return $.getJSON("../telegram/update.json").then(function(json) {
+
+            //console.log(json);
+
+            const message_id = json[chat_username]["latest_message_id"];
+
+            // don't do anythign if there's no new message
+            if(previous_message_ids[chat_username] == message_id) return;
+            previous_message_ids[chat_username] = message_id;
+
+            var elements = [];
+
+            for(var i = n_messages_to_show - 1; i >= 0; i--) {
+                var script = document.createElement("script");
+                script.async = true;
+                script.src = "https://telegram.org/js/telegram-widget.js?5";
+                tgpost = chat_username + "/" + (message_id - i);
+
+                //console.log("tgpost", tgpost)
+
+                script.dataset.telegramPost = tgpost;
+                script.dataset.width = "100%";
+                elements.push(script);
+            }
+
+            var container = document.getElementById("tg-script-container");
+
+            // clear container
+            while(container.firstChild) { container.removeChild(container.firstChild); }
+
+            // add new messages
+            elements.forEach(e => {
+                container.appendChild(e);
+            });
+
+        });
+        // construct script tag simlar to the embed code box in https://core.telegram.org/widgets/posts
     };
-    updateMessage();
-    //setInterval(updateMessage, 3000);
+
+    try {
+        updateMessage().then(function() {
+            // wait for result, start looping if there's no error
+            setInterval(updateMessage, 1000);
+        });
+    } catch(e) {
+        console.error("Error in tgpost.html:updateMessage()");
+        throw(e);
+    }
+
 </script>
 </html>
