@@ -10,11 +10,14 @@
 
 <script type="text/javascript">
     //TODO: stylesheet, scroll to bottom if messages are too tall, spacing between elemes
-    //TODO: how to figure out latest message?
-    //TODO: parse chat_username and n_messages_to_show from URL
-    const chat_username = "fk_infonaytto";
-    //const chat_username = "fkinfonayttotestlors";
-    const n_messages_to_show = 3;
+    const params = new URLSearchParams(window.location.search);
+    if(!params.has("chat_username")) {
+        //TODO: show this in HTML? (see countdown_template.html)
+        console.error("missing chat_username in URL.");
+    }
+    const chat_username = params.get("chat_username");
+    //console.log("chat_username", chat_username);
+    const n_messages_to_show = params.has("n_messages_to_show") ? params.get("n_messages_to_show") : 3;
 
     var previous_message_ids = {};
 
@@ -25,7 +28,8 @@
                 on crhome: launch with --allow-file-access-from-files --allow-file-access --allow-cross-origin-auth-prompt (https://superuser.com/questions/1217863/how-can-i-prevent-chrome-from-enforcing-cors-for-one-specific-file-url) (untested)
                 on firefox: go to about:config and disable security.fileuri.strict_origin_policy
         */
-        $.getJSON("../telegram/update.json").done(function(json) {
+        //TODO: print something if the file is missing or if the chat_username is invalid (fail callback)
+        return $.getJSON("../telegram/update.json").then(function(json) {
 
             //console.log(json);
 
@@ -48,7 +52,6 @@
                 script.dataset.telegramPost = tgpost;
                 script.dataset.width = "100%";
                 elements.push(script);
-                console.log("foo");
             }
 
             var container = document.getElementById("tg-script-container");
@@ -64,8 +67,16 @@
         });
         // construct script tag simlar to the embed code box in https://core.telegram.org/widgets/posts
     };
-    updateMessage();
-    setInterval(updateMessage, 1000);
+
+    try {
+        updateMessage().then(function() {
+            // wait for result, start looping if there's no error
+            setInterval(updateMessage, 1000);
+        });
+    } catch(e) {
+        console.error("Error in tgpost.html:updateMessage()");
+        throw(e);
+    }
 
 </script>
 </html>

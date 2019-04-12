@@ -9,7 +9,7 @@ var urlsWeighted = [
     ["html/inspirobot.html", 0.1],
     [HSLTimetableURLGenerator, 2],
     ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider https://github.com/patelnav/wiki-embed
-    ["html/tgpost.html", 0.5],
+    [TelegramURLGenerator, 0.5],
     ["html/countdown/countdown_ullis.html?title=Aikaa wappuun&timestamp=1556658000", 1.], // TODO: generate timestamp based on year, weight by time until wappu
     [PerjantaiURL, 0.2],
     ["html/calendar/calendar.html", 1]
