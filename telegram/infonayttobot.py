@@ -47,7 +47,10 @@ def update_output_file(msg):
     output_data = None
     try:
       with open(output_filename) as f:
-        output_data = json.loads(f.read())
+        contents = f.read().strip()
+        if not contents:
+          contents = "{}"
+        output_data = json.loads(contents)
 
     except IOError:
       # file was not found, we will create it
