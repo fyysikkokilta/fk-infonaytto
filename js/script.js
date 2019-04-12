@@ -10,7 +10,7 @@
 //TODO: 'kiltiksellä soi nyt' -- ks https://developer.spotify.com/documentation/web-api/reference/player/get-the-users-currently-playing-track/ http://kylebrumm.com/spotifyCurrentlyPlaying.js/ https://www.inkubio.fi/kiltiscam/
 //TODO: tgpost.html on joskus tyhjä
 //TODO: kahvibot
-//TODO: 'haluatko viestisi tähän?'/palaute -slide
+//TODO: 'haluatko viestisi tähän?'/palaute -slide -- comic sans + välkkyviä sateenkaaria + delfiinejä
 //TODO: sää
 
 var topIframe = document.getElementById("topIframe");

@@ -185,10 +185,6 @@ def on_anonymity_choice(bot, update, user_data):
 def handle_error(bot, update, error):
   logger.warning(error)
 
-def flush_messages(bot):
-  #TODO
-  raise NotImplementedError
-
 def main():
 
   pwd = os.path.dirname(os.path.abspath(__file__))
@@ -207,7 +203,6 @@ def main():
 
   updater.start_polling()
 
-  #flush_messages() #TODO
   print("Listening...")
   updater.idle()
 

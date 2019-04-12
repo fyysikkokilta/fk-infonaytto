@@ -52,6 +52,7 @@ const WappuURLGenerator = function() {
     const wappu_countdown_titles = [
         ["Aikaa wappuun", 1.0],
         ["Wappu tulee!", 0.1],
+        ["Onko simat jo tulilla?", 0.02],
     ]
     const now = new Date();
     var wappu = new Date(now.getFullYear() + "-05-01");
