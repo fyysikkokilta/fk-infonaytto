@@ -64,6 +64,10 @@
                 container.appendChild(e);
             });
 
+        }, function(data, textStatus) {
+            const error_msg = "Error getting JSON (check if update.json exists)";
+            console.error(error_msg + ":", textStatus);
+            throw error_msg; // doesn't seem to do much
         });
         // construct script tag simlar to the embed code box in https://core.telegram.org/widgets/posts
     };
