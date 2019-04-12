@@ -40,9 +40,6 @@ def update_output_file(msg):
   chat = msg.chat
   assert chat.type in ["group", "supergroup", "channel"], "update_output_file() called for incorrect chat type {} (chat ID {})".format(chat.type, chat.id)
 
-  # whether we're updating the public channel or one of the group chats
-  update_public_channel = chat.id == public_channel_id
-
   assert chat.username is not None, "update_output_file() called for non-public chat {} ({})".format(chat.id, chat.title)
 
   try:
@@ -58,9 +55,13 @@ def update_output_file(msg):
       # file was not found, we will create it
       output_data = {}
 
+      #TODO: catch JSON decode errors due to corrupt file and start with fresh one or something
 
-    # this is the data that will be stored
-    chat_dict = {
+
+    assert chat.id in group_chats_to_follow or chat.id == public_channel_id, "update_output_file() called for invalid chat {} ({}) ".format(chat.id, chat.title)
+
+    # use chat.username as key
+    output_data[chat.username] = {
         "chat_id": chat.id,
         "title": chat.title,
         "latest_message_id": msg.message_id,
@@ -68,27 +69,13 @@ def update_output_file(msg):
         "date": int(msg.date.timestamp()),
         }
 
-    #logger.info(pformat(chat_dict))
-
-    if update_public_channel:
-      if "public_channel" not in output_data:
-        output_data["public_channel"] = {}
-
-      output_data["public_channel"] = chat_dict
-
-    else:
-      assert chat.id in group_chats_to_follow, "update_output_file() called for chat {} ({}) that was not being followed".format(chat.id, chat.title)
-
-      if "group_chats" not in output_data:
-        output_data["group_chats"] = {}
-
-      # use chat.username as key
-      output_data["group_chats"][chat.username] = chat_dict
+    #logger.info(pformat(output_data[chat.username))
 
     with open(output_filename, "w+t") as f:
       f.write(json.dumps(output_data, indent = 4))
 
   except (IOError, ValueError) as e:
+
     print("Error with file {}:".format(output_filename))
     print(e)
     raise
@@ -155,6 +142,8 @@ def on_anonymity_choice(bot, update, user_data):
 
   query = update.callback_query
   msg = user_data["msg"]
+
+  del user_data["msg"]
 
   #logger.info(query.data)
   #logger.info("type(query.data):" + str(type(query.data)))
