@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../lib/jquery-3.3.1.min.js"> </script>
+<style>
+
+  body {
+    /* Background from: https://www.pexels.com/photo/burger-and-vegetables-placed-on-brown-wood-surface-1565982/ */
+    background: url(food.jpg) no-repeat center center fixed; 
+     -webkit-background-size: cover;                                             
+     -moz-background-size: cover;                                                
+     -o-background-size: cover;                                                  
+     background-size: cover;
+
+  }
+  .restaurant-container {
+    background: rgba(253, 255, 228, 0.9);
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+    float: left;
+  }
+  .restaurant-name {
+    text-align: center;
+    margin: 0em;
+    padding: 1em;
+    font-family: Inconsolata;
+    font-size: 30px;
+  }
+  .restaurant-item-title {
+    font-family: Calibri;
+    font-size: 25px;
+  }
+  .restaurant-item-properties {
+    font-family: Inconsolata;
+    font-size: 25px;
+  }
+</style>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+  let params = new URLSearchParams(window.location.search);
+  let page = params.has("page") ? params.get("page") : 1;
+  
+  const restaurants1 = {
+    52: "A Bloc",
+    5: "Alvari",
+    45: "Dipoli",
+  }
+
+  const restaurants2 = {
+    1: "Kvarkki",
+    50: "Kipsari",
+    2: "T-talo",
+    //7: "TUAS",
+    3: "Täffä",
+    //8: "Valimo",
+  }
+
+  if (page == 1) {
+    var restaurants = restaurants1;
+  } else if (page == 2) {
+    var restaurants = restaurants2;
+  }
+
+  
+
+  //TODO: align properties (G L V etc) to the right
+
+
+  const restaurantIDs = Object.keys(restaurants).join(",");
+
+  const today = (new Date()).toISOString().substring(0, 10);
+  $.getJSON(`https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=${restaurantIDs}&days=${today}`,
+      //NOTE: requires CORS extension in browser to work
+      function(data) {
+        const template = document.getElementById("restaurant-info-template");
+
+        var nodes = [];
+
+        Object.keys(restaurants).forEach((id) => {
+          //console.log(id, restaurants[id], data[id][today]);
+
+          const node = document.createElement("div");
+          node.classList.add("restaurant-container");
+
+          const restaurantName = restaurants[id];
+
+          const itemsHTML = data[id][today].map((item) => {
+            //TODO: string replacements ('juusto' -> 'kämä' etc)
+            //TODO: group wicked rabbit, 'grillistä' etc. consider separate handlers for alvari etc
+            //TODO: if no items are found (e.g. saturday), display 'ei ruokalistaa saatavilla' or something
+            const title = item.title;
+            const props = item.properties.join(", ");
+            return `
+              <div class="restaurant-item">
+              <span class="restaurant-item-title">${title}</span>
+              <span class="restaurant-item-properties">${props}</span>
+              </div>`;
+          }).join("");
+
+          console.log("itemsHTML", itemsHTML);
+
+          const nodeHTML = `
+            <h4 class="restaurant-name">${restaurantName}</h4>
+            ${itemsHTML}
+            </div>`;
+
+          node.innerHTML = nodeHTML;
+          nodes.push([restaurantName, node]);
+        });
+
+        // Sort by restaurant name.
+        nodes.sort(function(a, b){
+          var nameA=a[0].toLowerCase(), nameB=b[0].toLowerCase();
+          if (nameA < nameB) //sort string ascending
+            return -1;
+          if (nameA > nameB)
+            return 1;
+          return 0; //default return value (no sorting)
+        });
+
+        nodes.forEach((x) => {
+          document.body.appendChild(x[1]);
+        });
+  });
+
+</script>
+</html>
