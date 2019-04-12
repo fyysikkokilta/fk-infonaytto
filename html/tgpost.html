@@ -1,25 +1,71 @@
 <!DOCTYPE html>
 <html>
+    <head>
+    <meta charset="utf-8">
+    <script src="../lib/jquery-3.3.1.min.js"></script>
+    </head>
 <body style="background: white;">
     <div id="tg-script-container"></div>
 </body>
 
 <script type="text/javascript">
-    // embed a random telegram post from the first 100000 posts in fk lörs.
+    //TODO: stylesheet, scroll to bottom if messages are too tall, spacing between elemes
     //TODO: how to figure out latest message?
-    updateMessage = function() {
-        // construct script tag simlar to the embed code box in https://core.telegram.org/widgets/posts
-        var script = document.createElement("script");
-        script.async = true;
-        script.src = "https://telegram.org/js/telegram-widget.js?5";
-        script.dataset.telegramPost = "fklors/" + Math.floor(Math.random() * 100000);
-        script.dataset.width = "100%";
+    //TODO: parse chat_username and n_messages_to_show from URL
+    const chat_username = "fk_infonaytto";
+    //const chat_username = "fkinfonayttotestlors";
+    const n_messages_to_show = 3;
 
-        var container = document.getElementById("tg-script-container");
-        while(container.firstChild) { container.removeChild(container.firstChild); }
-        container.appendChild(script);
+    var previous_message_ids = {};
+
+    updateMessage = function() {
+
+        /*
+            To make this work, do the following:
+                on crhome: launch with --allow-file-access-from-files --allow-file-access --allow-cross-origin-auth-prompt (https://superuser.com/questions/1217863/how-can-i-prevent-chrome-from-enforcing-cors-for-one-specific-file-url) (untested)
+                on firefox: go to about:config and disable security.fileuri.strict_origin_policy
+        */
+        $.getJSON("../telegram/update.json").done(function(json) {
+
+            //console.log(json);
+
+            const message_id = json[chat_username]["latest_message_id"];
+
+            // don't do anythign if there's no new message
+            if(previous_message_ids[chat_username] == message_id) return;
+            previous_message_ids[chat_username] = message_id;
+
+            var elements = [];
+
+            for(var i = n_messages_to_show - 1; i >= 0; i--) {
+                var script = document.createElement("script");
+                script.async = true;
+                script.src = "https://telegram.org/js/telegram-widget.js?5";
+                tgpost = chat_username + "/" + (message_id - i);
+
+                //console.log("tgpost", tgpost)
+
+                script.dataset.telegramPost = tgpost;
+                script.dataset.width = "100%";
+                elements.push(script);
+                console.log("foo");
+            }
+
+            var container = document.getElementById("tg-script-container");
+
+            // clear container
+            while(container.firstChild) { container.removeChild(container.firstChild); }
+
+            // add new messages
+            elements.forEach(e => {
+                container.appendChild(e);
+            });
+
+        });
+        // construct script tag simlar to the embed code box in https://core.telegram.org/widgets/posts
     };
     updateMessage();
-    //setInterval(updateMessage, 3000);
+    setInterval(updateMessage, 1000);
+
 </script>
 </html>
