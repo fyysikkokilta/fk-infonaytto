@@ -1,30 +1,72 @@
 body {
-    background-image: url(Ullanlinnanmäki_Vappuna.jpg);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: url(Ullanlinnanmäki_Vappuna.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
 }
 
+.background-cover {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: white;
+    opacity: 0.5;
+    z-index: -1000;
+}
 #title {
     font-family: UnifrakturMaguntia;
     font-size: 125px;
+    -webkit-text-stroke: 3px black;
+    text-stroke: 3px black;
     color: #800040;
     width: 56%;
-    margin: 80px 0 15px 0;
+    margin: 200px 0 auto 0;
+    text-align: center;
+}
+
+.wappu-body {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: none;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    position: fixed;
+    /* see https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#title.wappu-text-huge {
+    font-size: 150px;
+    text-align: center;
+    line-height: 100%;
+    width: 80%;
+    margin:0;
 }
 
 .text {
-    font-size: 22px;
-    padding-left: 10px;
+    font-size: 30px;
+    text-align: center;
 }
 
 .row {
-    padding-left: 10%;
+    /*padding-left: 10%;*/
+    justify-content: center;
 }
 
 .score {
     /*width and height of the circle*/
     border-radius: 50%;
-    width: 140px;
-    height: 140px;
+    width: 200px;
+    height: 200px;
     font-family: UnifrakturMaguntia;
 }
 
@@ -33,36 +75,37 @@ body {
     border: 2px solid #800040;
     line-height: 0px;   /*with this line you can control the text inside circle*/
     padding: 20px 0 0 0;      /*with this line you can control the text inside circle*/
-    margin-left: 8%
+    /*margin-left: 8% */
+    margin: 0 10px;
 }
 
 .number {
-    font-size: 60px;
+    font-size: 100px;
     color: #800040;
     /*change the position of number*/
-    padding: 0 0 0 7px;
+    /* padding: 0 0 0 7px; */
 }
 
 #display_days{
-    padding-left: 26px;
+    /*padding-left: 26px;*/
 }
 
 #display_hours, #display_mins, #display_seconds  {
-    padding-left: 42.5px;
+    /*padding-left: 42.5px;*/
 }
 
 #days {
-    padding-left: 33.5px;
+    /*padding-left: 33.5px; */
 }
 
 #hours {
-    padding-left: 37px;
+    /*padding-left: 37px; */
 }
 
 #minutes {
-    padding-left: 22px;
+    /*padding-left: 22px; */
 }
 
 #seconds {
-    padding-left: 30px;
+    /*padding-left: 30px;*/
 }

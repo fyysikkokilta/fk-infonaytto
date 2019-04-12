@@ -6,19 +6,19 @@
 var urlsWeighted = [
     //["example.com", 9999], // local file
     //["html/naytto2.html", 9999], // local file
-    ["html/inspirobot.html", 0.1],
+    ["html/inspirobot.html", 0.05],
     [HSLTimetableURLGenerator, 2],
     ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider https://github.com/patelnav/wiki-embed
     ["html/tgpost.html", 0.5],
-    ["html/wappu/countdown_ullis.html?title=Aikaa wappuun&timestamp=1556658000", 1.], // TODO: generate timestamp based on year, weight by time until wappu
+    [WappuURLGenerator, 1.],
     [PerjantaiURLGenerator, 0.2],
     //["html/kanttiinit.html", 2], //TODO
     //["https://www.inkubio.fi/kiltiscam/", 0.5],
     //["https://www.inkubio.fi/kiltiscam/kiltahuone.jpg", 0.5], //TODO: own html file for this to fit image
 ];
 
-// -2 because PerjantaiURLGenerator can be invalid on certain days
-const maxRecentUrls = Math.min(MAX_RECENT_URLS, urlsWeighted.length - 2);
+// -3 because two generators can be invalid on certain days
+const maxRecentUrls = Math.min(MAX_RECENT_URLS, urlsWeighted.length - 3);
 
 class URLManager {
     constructor() {

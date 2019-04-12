@@ -39,3 +39,44 @@ const PerjantaiURLGenerator = function() {
 
     return "html/perjantai/perjantai.html";
 }
+
+const WappuURLGenerator = function() {
+    const wappu_titles = [
+        ["Hauskaa wappua!", 1.],
+        ["Hyvää wappua ja onnelista uutta vuotta!", 0.2],
+        ["Wappu on taas", 0.1],
+        ["Wabedi wabs!", 0.1],
+        ["Wappu on TÄNÄÄN", 0.1],
+    ];
+
+    const wappu_countdown_titles = [
+        ["Aikaa wappuun", 1.0],
+        ["Wappu tulee!", 0.1],
+    ]
+    const now = new Date();
+    var wappu = new Date(now.getFullYear() + "-05-01");
+    var millis_until_wappu = wappu - now;
+    if(millis_until_wappu < 0) {
+        // wappu has started, figure out if it has ended
+        const millis_per_week = 7 * 24 * 60 * 60 * 1000;
+        if(Math.abs(millis_until_wappu) < millis_per_week) {
+
+            return "html/wappu/wappu.html?title=" + weighted_choice(wappu_titles);
+
+        } else {
+
+            // wabu time is over, count down to next year
+            // TODO: should this return false at some point of the year?
+            wappu = new Date((now.getFullYear() + 1) + "-05-01");
+
+        }
+    }
+
+    // hacky way to take time zones into account (not sure if correct during winter...)
+    const timestamp = Math.floor(wappu.getTime()/1000 + 60 * now.getTimezoneOffset());
+
+    var url = "html/wappu/countdown_ullis.html";
+    url += "?title=" + weighted_choice(wappu_countdown_titles);
+    url += "&timestamp=" + timestamp;
+    return url;
+}

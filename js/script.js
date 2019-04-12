@@ -11,6 +11,7 @@
 //TODO: tgpost.html on joskus tyhjä
 //TODO: kahvibot
 //TODO: 'haluatko viestisi tähän?'/palaute -slide
+//TODO: sää
 
 var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");

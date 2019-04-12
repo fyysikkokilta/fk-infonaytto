@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=UnifrakturMaguntia" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="wappu.css">
+</head>
+<body class="wappu-body">
+    <!-- this is filled with white and 50% opacity to dim the background image -->
+    <div class="background-cover"></div>
+    <h1 class="mx-auto wappu-text-huge" id="title"></h1>
+
+</body>
+<script type="text/javascript">
+var params = new URLSearchParams(window.location.search);
+const title = params.has("title") ? params.get("title") : "Hauskaa wappua!";
+document.getElementById("title").innerHTML = title;
+</script>
+</html>
