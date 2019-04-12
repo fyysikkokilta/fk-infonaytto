@@ -7,12 +7,11 @@
 
   body {
     /* Background from: https://www.pexels.com/photo/burger-and-vegetables-placed-on-brown-wood-surface-1565982/ */
-    background: url(food.jpg) no-repeat center center fixed; 
-     -webkit-background-size: cover;                                             
-     -moz-background-size: cover;                                                
-     -o-background-size: cover;                                                  
+    background: url(food.jpg) no-repeat center center fixed;
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
      background-size: cover;
-
   }
   .restaurant-container {
     background: rgba(253, 255, 228, 0.9);
@@ -43,7 +42,7 @@
 <script type="text/javascript">
   let params = new URLSearchParams(window.location.search);
   let page = params.has("page") ? params.get("page") : 1;
-  
+
   const restaurants1 = {
     52: "A Bloc",
     5: "Alvari",
@@ -64,8 +63,6 @@
   } else if (page == 2) {
     var restaurants = restaurants2;
   }
-
-  
 
   //TODO: align properties (G L V etc) to the right
 
