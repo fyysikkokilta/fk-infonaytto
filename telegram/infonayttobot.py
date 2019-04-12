@@ -5,13 +5,18 @@ Simple Telegram bot to bridge messages from a channel to the info screen.
 See README.md for more details. See also config.py and tgpost.html.
 """
 
-import telepot
-from telepot.loop import MessageLoop
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import logging
 import os
 import time
-from pprint import pprint
+from pprint import pformat
 import json
 import config
+
+# set up logging
+logging.basicConfig(format='%(asctime)s - %(filename)s:%(lineno)d - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 bot_token = config.bot_token
 assert bot_token, "Bot token missing"
@@ -28,18 +33,15 @@ bot = None
 
 def update_output_file(msg):
   # update latest_message_id to external json file for group chats
+  # msg should be a telegram.Message object
 
-  content_type, chat_type, chat_id = telepot.glance(msg)
-  assert chat_type in ["group", "supergroup", "channel"], "update_output_file() called for incorrect chat type {} (chat ID {})".format(chat_type, chat_id)
-
-  # groups and channels should have this attribute
-  chat_title = msg["chat"]["title"]
+  chat = msg.chat
+  assert chat.type in ["group", "supergroup", "channel"], "update_output_file() called for incorrect chat type {} (chat ID {})".format(chat.type, chat.id)
 
   # whether we're updating the public channel or one of the group chats
-  update_public_channel = chat_id == public_channel_id
+  update_public_channel = chat.id == public_channel_id
 
-  assert "username" in msg["chat"], "update_output_file() called for non-public chat {} ({})".format(chat_id, chat_title)
-  chat_username = msg["chat"]["username"]
+  assert chat.username is not None, "update_output_file() called for non-public chat {} ({})".format(chat.id, chat.title)
 
   try:
     output_data = None
@@ -55,16 +57,17 @@ def update_output_file(msg):
       raise NotImplementedError("update_output_file() not implemented for public_channel yet.")
 
     else:
-      assert chat_id in group_chats_to_follow, "update_output_file() called for chat {} ({}) that was not being followed".format(chat_id, chat_title)
+      assert chat.id in group_chats_to_follow, "update_output_file() called for chat {} ({}) that was not being followed".format(chat.id, chat.title)
 
       if "group_chats" not in output_data:
         output_data["group_chats"] = {}
 
-      output_data["group_chats"][chat_username] = {
-          "chat_id": chat_id,
-          "title": chat_title,
-          "latest_message_id": msg["message_id"],
-          "username": chat_username,
+      # use chat.username as key
+      output_data["group_chats"][chat.username] = {
+          "chat_id": chat.id,
+          "title": chat.title,
+          "latest_message_id": msg.message_id,
+          "username": chat.username,
           }
 
 
@@ -76,77 +79,84 @@ def update_output_file(msg):
     print(e)
     raise
 
-def send_start_message(chat_id):
+def send_start_message(bot, update):
+  #NOTE: apply these for all handler functions when python-telegram-bot 0.12 is released:
+  # change args from (bot, update) to (update, context)
+  # bot = context.bot
+  # see https://github.com/python-telegram-bot/python-telegram-bot/wiki/Transition-guide-to-Version-12.0#context-based-callbacks
+
   raise NotImplementedError("/start message not implemented yet")
 
-def send_message_to_public_channel(msg, anonymize = False):
+def send_help_message(bot, update):
+  raise NotImplementedError("/help message not implemented yet")
+
+def forward_message_to_public_channel(msg, anonymize = False):
   raise NotImplementedError("forwarding message to public channel not implemented yet")
 
   if not anonymize:
     ret = bot.forwardMessage()
 
-def handle_message(msg):
-  pprint(msg)
-  print("\n")
+def handle_group_message(bot, update):
 
-  content_type, chat_type, chat_id = telepot.glance(msg)
+  msg = update.effective_message
+  chat = msg.chat
 
-  is_group = chat_type in ["group", "supergroup"]
+  logger.info(pformat(msg.to_dict()))
+  logger.info(pformat(chat.to_dict()) + "\n")
 
-  if is_group:
-    if chat_id not in group_chats_to_follow:
-      print("bot received message from group chat with ID {} ({}) but is not configured to follow it".format(chat_id, msg["chat"]["title"]))
-      return
+  if chat.id not in group_chats_to_follow:
+    logger.warning("bot received message from group chat with ID {} ({}) but is not configured to follow it".format(chat.id, chat.title))
+    return
 
-    if "username" not in msg["chat"]:
-      print("chat {} ({}) is not a public group".format(chat_id, msg["chat"]["title"]))
-      return
+  if chat.username is None:
+    logger.warning("chat {} ({}) is not a public group".format(chat.id, chat.title))
+    return
 
-    update_output_file(msg)
+  update_output_file(msg)
 
-  elif chat_type == "private":
-    # private message
-    raise NotImplementedError("private messages not implemented yet")
+def handle_private_message(bot, update):
 
-    if content_type == "text":
-      text = msg["text"]
+  raise NotImplementedError("handle_private_message() not implemented")
+  msg = update.effective_message
+  ret = bot.send_message(public_channel_id, msg.message_id) #TODO
+  update_output_file(ret)
+  logging.info(ret)
 
-      # hairy hat command parsing
-      if text.startswith("/start"):
-        send_start_message(chat_id)
-        return
+  #TODO: send as not anonymous
+  if text.startswith("/lahetaAnonyymina") or text.startswith("/laheta"):
+    forward_message_to_public_channel(msg)
+    return
 
-      if text.startswith("/lahetaAnonyymina") or text.startswith("/laheta"):
-        send_message_to_public_channel(msg)
-        return
+  ret = bot.sendMessage(config.public_channel_id, msg["message_id"])
+  print("ret", ret)
 
-    ret = bot.sendMessage(config.public_channel_id, msg["message_id"])
-    print("ret", ret)
-  
-  return
-
+def handle_error(bot, update, error):
+  logger.warning(error)
 
 def flush_messages(bot):
+  #TODO
   raise NotImplementedError
 
 def main():
-  global bot
-  bot = telepot.Bot(bot_token)
 
   pwd = os.path.dirname(os.path.abspath(__file__))
   print("changing working directory to {}".format(pwd))
   os.chdir(pwd)
 
-  #flush_messages(bot) #TODO
-  #TODO: check out telepot filters, add separate handler for private messages etc
-  MessageLoop(bot, handle_message).run_as_thread()
+  # based on echobot2 example
+  updater = Updater(bot_token)
+  dp = updater.dispatcher
+  dp.add_handler(CommandHandler("start", send_start_message, filters = Filters.private))
+  dp.add_handler(CommandHandler("help", send_help_message, filters = Filters.private))
+  dp.add_handler(MessageHandler(Filters.private, handle_private_message)) #TODO
+  dp.add_handler(MessageHandler(Filters.group, handle_group_message))
+  dp.add_error_handler(handle_error)
+
+  updater.start_polling()
+
+  #flush_messages() #TODO
   print("Listening...")
+  updater.idle()
 
-  try:
-    while True:
-      time.sleep(10)
-
-  except KeyboardInterrupt:
-    pass
-
-main()
+if __name__ == "__main__":
+  main()
