@@ -13,8 +13,15 @@
      -o-background-size: cover;
      background-size: cover;
   }
+  #parent-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+  }
   .restaurant-container {
-    background: rgba(253, 255, 228, 0.9);
+    background: rgba(253, 255, 228, 0.8);
     border-radius: 1em;
     padding: 1em;
     margin: 1em;
@@ -23,21 +30,38 @@
   .restaurant-name {
     text-align: center;
     margin: 0em;
-    padding: 1em;
+    padding: .5em;
     font-family: Inconsolata;
-    font-size: 30px;
+    font-size: 35px;
   }
   .restaurant-item-title {
     font-family: Calibri;
-    font-size: 25px;
+    font-size: 29px;
   }
   .restaurant-item-properties {
-    font-family: Inconsolata;
-    font-size: 25px;
+    font-family: Calibri;
+    font-size: 29px;
+    text-align: right;
   }
+  .restaurant-properties-container {
+    float: left;
+    margin: 1em;
+  }
+  .restaurant-titles-container {
+    float: left;
+    margin: 1em;
+  }
+  .not-available {
+    text-align: center;
+    font-family: Calibri;
+    font-size: 29px;
+  }
+
 </style>
 </head>
 <body>
+  <div id="parent-container">
+  </div>
 </body>
 <script type="text/javascript">
   let params = new URLSearchParams(window.location.search);
@@ -46,15 +70,15 @@
   const restaurants1 = {
     52: "A Bloc",
     5: "Alvari",
-    45: "Dipoli",
+    50: "Kipsari",
   }
 
   const restaurants2 = {
-    1: "Kvarkki",
-    50: "Kipsari",
     2: "T-talo",
-    //7: "TUAS",
+    45: "Dipoli",
+    1: "Kvarkki",
     3: "Täffä",
+    //7: "TUAS",
     //8: "Valimo",
   }
 
@@ -64,12 +88,11 @@
     var restaurants = restaurants2;
   }
 
-  //TODO: align properties (G L V etc) to the right
-
 
   const restaurantIDs = Object.keys(restaurants).join(",");
 
   const today = (new Date()).toISOString().substring(0, 10);
+  //const today = '2019-04-22';
   $.getJSON(`https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=${restaurantIDs}&days=${today}`,
       //NOTE: requires CORS extension in browser to work
       function(data) {
@@ -82,30 +105,47 @@
 
           const node = document.createElement("div");
           node.classList.add("restaurant-container");
-
+	  const nodeTitles = document.createElement("div");
+          nodeTitles.classList.add("restaurant-title-container");
+	  const nodeProps = document.createElement("div");
+          nodeProps.classList.add("restaurant-props-container");
+	  
           const restaurantName = restaurants[id];
 
-          const itemsHTML = data[id][today].map((item) => {
-            //TODO: string replacements ('juusto' -> 'kämä' etc)
-            //TODO: group wicked rabbit, 'grillistä' etc. consider separate handlers for alvari etc
-            //TODO: if no items are found (e.g. saturday), display 'ei ruokalistaa saatavilla' or something
-            const title = item.title;
-            const props = item.properties.join(", ");
-            return `
-              <div class="restaurant-item">
-              <span class="restaurant-item-title">${title}</span>
-              <span class="restaurant-item-properties">${props}</span>
-              </div>`;
-          }).join("");
+	  //TODO: This doesn't work with A Block and Alvari, because differences in json 
+	  // -> separate function for all cases?
+	  if (data[id].hasOwnProperty(today)) {
+	    //TODO: string replacements ('juusto' -> 'kämä' etc)
+	    //TODO: group wicked rabbit, 'grillistä' etc. consider separate handlers for alvari etc
+	    const titlesHTML = data[id][today].map((item) => {
+	      const title = item.title;
+	      return `
+		<div class="restaurant-item-title">${title}</div>`
+	    }).join("")
 
-          console.log("itemsHTML", itemsHTML);
+	    const propsHTML = data[id][today].map((item) => {
+	      const props = item.properties.join(", ");
+	      return `
+		<div class="restaurant-item-properties">${props}</div>`
+	    }).join("")
 
-          const nodeHTML = `
-            <h4 class="restaurant-name">${restaurantName}</h4>
-            ${itemsHTML}
-            </div>`;
+	    nodeTitles.innerHTML = titlesHTML;
+	    nodeProps.innerHTML = propsHTML;
 
-          node.innerHTML = nodeHTML;
+	    const nodeHTML =`
+	      <h4 class="restaurant-name">${restaurantName}</h4>
+	      <div class="restaurant-titles-container">${titlesHTML}</div>
+	      <div class="restaurant-properties-container">${propsHTML}</div>`;
+
+	    node.innerHTML = nodeHTML;
+	  } else {
+	    const notAvailableHTML = `
+	      <h4 class="restaurant-name">${restaurantName}</h4>
+	      <div class="not-available">Ruokalistaa ei saatavilla</div>`;
+
+	    node.innerHTML = notAvailableHTML;
+	  }
+
           nodes.push([restaurantName, node]);
         });
 
@@ -120,9 +160,8 @@
         });
 
         nodes.forEach((x) => {
-          document.body.appendChild(x[1]);
+          document.getElementById("parent-container").appendChild(x[1]);
         });
   });
-
 </script>
 </html>
