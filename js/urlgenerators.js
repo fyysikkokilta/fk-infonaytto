@@ -27,7 +27,6 @@ HSLTimetableURLGenerator = function() {
     ];
 
     // instructions for HSL link parameters: https://drive.google.com/file/d/0B6kYA7HJwmafemo2RU1senU1Z0pfUTZEQmNkS0thSzg4dTRJ/view
-    //TODO: mittaa kauan kestää kävellä metrikselle/550 pysäkille ja laita offset = se.
     var url = "http://hsl.trapeze.fi/traveller/web?command=fullscreen&id=FyyKiOK&cols=1&extracolumn=platform&offset=240"
     url += "&title=" + encodeURIComponent(weighted_choice(titlesWeighted));
     return url;
