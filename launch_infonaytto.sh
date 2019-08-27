@@ -5,8 +5,12 @@
 # open terminal and display IP address
 #lxterminal --command="watch ifconfig wlan0" &
 
+INFONAYTTO_FOLDER=~/infonaytto
+#TODO: implement this: https://stackoverflow.com/questions/50988416/stop-tmux-detached-session-closing-when-command-finishes
+lxterminal --command="tmux new-session -s 'infonaytto' 'python3 $INFONAYTTO_FOLDER/telegram/infonayttobot.py'" &
+
 # from https://askubuntu.com/questions/36287/how-to-start-firefox-in-fullscreen-mode
-firefox ~/infonaytto/naytto.html &
+firefox $INFONAYTTO_FOLDER/naytto.html &
 until xdotool search --sync --onlyvisible --class "Firefox" windowactivate key F11; do
 	# xdotool sometimes fails, retry
 	echo retrying xdotool fullscreen
