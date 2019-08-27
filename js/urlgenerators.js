@@ -89,6 +89,6 @@ const TelegramURLGenerator = function() {
 
     var url = "html/tgpost.html";
     url += "?chat_username=" + weighted_choice(chat_usernames);
-    //url += "&n_messages_to_show=" + n_tg_messages_to_show; // defined in config.js
+    url += "&n_messages_to_show=" + N_TG_MESSAGES_TO_SHOW; // defined in config.js
     return url;
 }
