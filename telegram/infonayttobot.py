@@ -198,12 +198,13 @@ def main():
   dp.add_handler(CommandHandler("help", send_help_message, filters = Filters.private))
   dp.add_handler(MessageHandler(Filters.private, handle_private_message, pass_user_data = True))
   dp.add_handler(CallbackQueryHandler(on_anonymity_choice, pass_user_data = True))
+  #TODO: catch channel messages (possible with python-telegram-bot?)
   dp.add_handler(MessageHandler(Filters.group, handle_group_message))
   dp.add_error_handler(handle_error)
 
   updater.start_polling()
 
-  print("Listening...")
+  logger.info("Listening...")
   updater.idle()
 
 if __name__ == "__main__":
