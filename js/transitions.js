@@ -215,6 +215,7 @@ $.effects.define( "clockwipe", "toggle", function( options, done ) {
 });
 
 // list of all possible transitions
+// TODO: go through these and leave out laggy ones
 var transitionEffectsWeighted = [
     [{effect: "blind", duration: "slow"},                       1],
     [{effect: "bounce", distance: 100, times: 5, duration: 1000},   1],
