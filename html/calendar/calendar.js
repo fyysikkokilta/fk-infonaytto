@@ -1,4 +1,5 @@
 // HUOM! Kalenteria vastaava markup pitää laittaa
+//TODO: split across multiple HTML pages, doesn't fit on one page
 // calendar.html-tiedostoon, jos määrä muuttuu.
 var cids = [
     'u6eju2k63ond2fs7fqvjbna50c@group.calendar.google.com',
