@@ -5,11 +5,12 @@
     <script src="../lib/jquery-3.3.1.min.js"></script>
     </head>
 <body style="background: white; overflow:hidden; position:absolute; bottom:0; left:0; right:0;">
-    <div id="tg-script-container" style="transform: scale(2); transform-origin: bottom center; position:absolute; bottom: 0;"></div>
+    <div id="tg-script-container" style="transform: scale(2.5); transform-origin: bottom center; position:absolute; bottom: 0;"></div>
 </body>
 
 <script type="text/javascript">
     //TODO: stylesheet, scroll to bottom if messages are too tall, spacing between elemes
+    //TODO: show title text like 'Sinun viestisi tähän: @fk_infonayttobot' for channel page
     const params = new URLSearchParams(window.location.search);
     if(!params.has("chat_username")) {
         //TODO: show this in HTML? (see countdown_template.html)
