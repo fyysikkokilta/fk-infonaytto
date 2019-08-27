@@ -11,6 +11,11 @@ Lörinä as service
 
 That's it, there's no pöhinä stuff like React or anything. All dependencies are included in the repo in `lib/`.
 
+## Raspberry Pi configuration
+To make Firefox open automatically on startup, do the following:
+1. Set up Raspbian to automatically log in to the user you want. This can be done with `sudo raspi-config` and select "auto-login GUI" from the Boot options. Then, find all instances of the username of the one who ran `raspi-config` in the files `/etc/lightdm/lightdm.conf` and `/etc/systemd/system/getty@tty1.service.d/autologin.conf`, and replace them with the user name you want.
+1. Add the line `@sh path/to/infonaytto/launch_infonaytto.sh` to `.config/lxsession/LXDE-pi/autostart`
+
 
 ## Adding content, configuration
 
