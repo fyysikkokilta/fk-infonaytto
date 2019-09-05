@@ -23,7 +23,8 @@ function newSite() {
     var url = urlManager.getURL();
 
     var targetFrame = currentIframeIsTop ? botIframe : topIframe;
-    targetFrame.src = "about:blank"; // this prevents memory leak (maybe) -- TODO: doesn't seem to ...
+    //targetFrame.src = "about:blank"; // this prevents memory leak (maybe) -- TODO: doesn't seem to ...
+    $(targetFrame).empty();
     targetFrame.src = url;
     //console.log("loading", url);
 

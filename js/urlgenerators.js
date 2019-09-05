@@ -84,6 +84,7 @@ const WappuURLGenerator = function() {
 const TelegramURLGenerator = function() {
     const chat_usernames = [
         ["fk_infonaytto", 1],
+        ["fkinfonayttotestlors", 1],
         //["fklors", 1.], //TODO
     ];
 

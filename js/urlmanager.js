@@ -9,7 +9,7 @@ var urlsWeighted = [
     ["html/inspirobot.html", 0.05],
     [HSLTimetableURLGenerator, 2],
     ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider https://github.com/patelnav/wiki-embed
-    [WappuURLGenerator, 1.],
+    [WappuURLGenerator, 0.1], //TODO: increase probability as wappu approaches
     [PerjantaiURLGenerator, 0.2],
     //["html/kanttiinit.html", 2], //TODO
     [TelegramURLGenerator, 0.5],
