@@ -1,0 +1,60 @@
+<!doctype html>
+<head>
+    <meta charset="utf8">
+    <script src="../lib/jquery-3.3.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Candal&display=swap" rel="stylesheet">
+    <style>
+        h1 {
+            text-align: center;
+            margin: 2.5rem;
+            font-size: 120px;
+            font-family: 'Candal', sans-serif;
+        }
+        .child > div {display: inline-block;}
+        body { padding: 6rem; }
+        div {
+            font-size: 60px;
+            font-family: 'Candal', sans-serif;
+        }
+        table {
+            width:85%;
+            border-spacing: 25px;
+        }
+        tr {
+            padding 3rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kiltiksellä soi</h1>
+    <div>
+        <table  id="parent">
+        </table>
+    </div>
+</body>
+<script type="text/javascript">
+    $.getJSON('./history.json', function(json){
+        json.forEach(item => {
+            // Set time to hours if over one hour has passed
+            var time = (Date.now() / 1000 - parseInt(item.timestamp)) / 60
+            var time_unit = 'min';
+            if (time > 60) {
+                time = Math.floor(time/60)
+                var time_unit = 'h';
+            } else {
+                time = Math.floor(time);
+            }
+
+            // TODO cut long title names and replace end with three dots ...
+            // TODO consider using album title pictures in the layout (eg. current background) : they can also be abtained from json
+            const node = document.createElement("tr");
+            node.classList.add("child");
+            node.innerHTML = `<td>${item.artist}</td>
+                              <td>${item.title}</td>
+                              <td>${time}</td>
+                              <td>${time_unit}</td>`;
+            document.getElementById("parent").appendChild(node);
+        });
+    });
+</script>
+
