@@ -27,10 +27,10 @@ def get_now_playing():
 
     title = str(metadata['xesam:title'])
     artist = str(metadata['xesam:artist'][0])
-    album = str(metadata['xesam:album'][0]) # unused
+    thumbnail = str(metadata['mpris:artUrl'])
     timestamp = time.time()
 
-    return { "title": title, "artist": artist, "timestamp": timestamp }
+    return { "title": title, "artist": artist, "thumbnail": thumbnail, "timestamp": timestamp }
 
 def send_songs():
     #from pprint import pprint
