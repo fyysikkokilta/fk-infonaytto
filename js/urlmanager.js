@@ -17,6 +17,7 @@ var urlsWeighted = [
     //["https://kanttiinit.fi", 2], //TODO: see https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=52,12&days=2019-04-05
     ["html/ruokalistat/kanttiinit.html?page=1", 2.5], //TODO: add parameter for duration, show kanttiinit for longer
     ["html/ruokalistat/kanttiinit.html?page=2", 2.5],
+    ["html/spotify.html", 2.5]
     //["https://www.inkubio.fi/kiltiscam/", 0.5],
     //["https://www.inkubio.fi/kiltiscam/kiltahuone.jpg", 0.5], //TODO: own html file for this to fit image
 ];
