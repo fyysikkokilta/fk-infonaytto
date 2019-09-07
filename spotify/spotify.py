@@ -30,7 +30,7 @@ def get_now_playing():
     thumbnail = str(metadata['mpris:artUrl'])
     timestamp = time.time()
 
-    return { "title": title, "artist": artist, "thumbnail": thubnail, "timestamp": timestamp }
+    return { "title": title, "artist": artist, "thumbnail": thumbnail, "timestamp": timestamp }
 
 def send_songs():
     #from pprint import pprint
