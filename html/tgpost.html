@@ -7,10 +7,27 @@
 #tg-script-container > * {
     margin-top: 15px;
 }
+#title-text-container {
+    height: 150px;
+    width:100%;
+    position:fixed;
+    top:0;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    background: #dddddd;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 70px;
+}
+.tg-nick {
+    color: #2481CC;
+}
 </style>
     </head>
-<body style="background: white; overflow:hidden; position:absolute; bottom:0; left:0; right:0;">
+<body style="background: white; overflow:hidden; position:absolute; bottom:0; left:0; right:0; margin-bottom:15px;">
     <div id="tg-script-container" style="transform: scale(2.5); transform-origin: bottom center; position:absolute; bottom: 0;"></div>
+    <div id="title-text-container">Lähetä viestiä!&ensp;<span class="tg-nick"> @fk_infonayttobot</span></div>
 </body>
 
 <script type="text/javascript">
