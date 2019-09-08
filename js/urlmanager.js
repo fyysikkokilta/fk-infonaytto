@@ -1,8 +1,13 @@
 // URL manager class
 
-// This list can have either strings or functions that generate an URL string.
-// The URLManager.getURL method takes care of finding out which is the case and
-// calling the function if needed.
+/*
+ * This list can have either strings or functions that generate an URL string.
+ * The URLManager.getURL method takes care of finding out which is the case and
+ * calling the function if needed. The list contains lists of the form [url,
+ * weight, duration], where weight affects how probably the page will be shown
+ * and the optional duration tells for how long. If duration is missing,
+ * DEFAULT_TRANSITION_INTERVAL will be used instead.
+*/
 var urlsWeighted = [
     //["example.com", 9999], // local file
     //["html/naytto2.html", 9999], // local file
@@ -41,13 +46,19 @@ class URLManager {
         }
         this.index = i;
         this.recentUrls.push(i);
-        var url = urlsWeighted[this.index][0];
+
+        var urlTuple = urlsWeighted[this.index]; //NOTE: should be object and not array...
+        //console.log(urlObj);
+        var url = urlTuple[0];
+        var duration = urlTuple[2] || DEFAULT_TRANSITION_INTERVAL; //NOTE: 0 seconds is not supported
+
         if(typeof(url) === "function") {
             // if it's a generator, generate
             url = url();
         }
         //console.log("url:", url, "index:", i, "recents:", this.recentUrls);
-        return url;
+        var ret = {url: url, duration: duration};
+        return ret;
     }
 
     check_index(i) {

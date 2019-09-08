@@ -16,11 +16,14 @@ var topIframe = document.getElementById("topIframe");
 var botIframe = document.getElementById("botIframe");
 var currentIframeIsTop = true;
 var urlManager = new URLManager();
-botIframe.src = urlManager.getURL();
-topIframe.src = urlManager.getURL();
+var initialUrlObj = urlManager.getURL();
+botIframe.src = initialUrlObj.url;
+topIframe.src = urlManager.getURL().url;
 
 function newSite() {
-    var url = urlManager.getURL();
+    var urlObj = urlManager.getURL(); // see urlmanager.js
+    var url = urlObj.url;
+    var duration = urlObj.duration;
 
     var targetFrame = currentIframeIsTop ? botIframe : topIframe;
     //targetFrame.src = "about:blank"; // this prevents memory leak (maybe) -- TODO: doesn't seem to ...
@@ -40,6 +43,8 @@ function newSite() {
         }
         currentIframeIsTop = !currentIframeIsTop;
     }, LOAD_WAIT_TIME);
+
+    return setTimeout(newSite, duration * 1e3);
 }
 
-setInterval ( newSite, TRANSITION_INTERVAL*1e3);
+setTimeout(newSite, initialUrlObj.duration);
