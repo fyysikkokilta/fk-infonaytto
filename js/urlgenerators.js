@@ -88,8 +88,13 @@ const TelegramURLGenerator = function() {
         //["fklors", 1.], //TODO
     ];
 
+    var chat_username = weighted_choice(chat_usernames);
     var url = "html/tgpost.html";
-    url += "?chat_username=" + weighted_choice(chat_usernames);
+    url += "?chat_username=" + chat_username;
     url += "&n_messages_to_show=" + N_TG_MESSAGES_TO_SHOW; // defined in config.js
+    if(chat_username == "fk_infonaytto") {
+        url += "&show_header=true";
+    }
+
     return url;
 }

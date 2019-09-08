@@ -27,7 +27,7 @@
     </head>
 <body style="background: white; overflow:hidden; position:absolute; bottom:0; left:0; right:0; margin-bottom:15px;">
     <div id="tg-script-container" style="transform: scale(2.5); transform-origin: bottom center; position:absolute; bottom: 0;"></div>
-    <div id="title-text-container">Lähetä viestiä!&ensp;<span class="tg-nick"> @fk_infonayttobot</span></div>
+    <div id="title-text-container" style="display:none;">Lähetä viestiä!&ensp;<span class="tg-nick"> @fk_infonayttobot</span></div>
     <div id="error-message-container" style="display:none; color:#ff0000; font-size:30px;"></div>
 </body>
 
@@ -42,6 +42,12 @@
     const chat_username = params.get("chat_username");
     //console.log("chat_username", chat_username);
     const n_messages_to_show = params.has("n_messages_to_show") ? params.get("n_messages_to_show") : 3;
+
+    const show_header = params.has("show_header") ? params.get("show_header") == "true" : false;
+    if(show_header) {
+	document.querySelector("#title-text-container").display.style = "";
+    }
+
 
     var previous_message_ids = {};
 
