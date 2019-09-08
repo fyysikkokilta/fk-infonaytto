@@ -2,6 +2,7 @@
 <head>
     <meta charset="utf8">
     <script src="../lib/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Candal&display=swap" rel="stylesheet">
     <style>
 	body
@@ -11,31 +12,60 @@
 	}
         h1 {
             text-align: center;
-            margin: 2.5rem;
+            margin: 0.5rem;
             font-size: 120px;
             font-family: 'Candal', sans-serif;
         }
+        img {
+            display: none;
+            height: 2px;
+            width: 2px;
+        }
         .child > div {display: inline-block;}
-        body { padding: 6rem; }
+        body { 
+            background-color: rgb(76,175, 80);
+            background-position: right;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 0;
+	}
         div {
-            font-size: 60px;
+            font-size: 50px;
             font-family: 'Candal', sans-serif;
         }
         table {
-            width:85%;
+            width:95%;
+            height:75%;
+	    margin-right: auto;
+	    margin-left: 1rem;
             border-spacing: 25px;
+        }
+        .mask {
+            width: 60%;
+            margin:0;
+            padding: 6rem;
+	    background: rgba(76,175, 80, 0.6);
         }
         tr {
             padding 3rem;
         }
+        td {
+            vertical-align: top;
+        }
+        span {
+            white-space: nowrap;
+        }
     </style>
 </head>
-<body>
-    <h1>Kiltiksellä soi</h1>
-    <div>
-        <table  id="parent">
-        </table>
+<body id="body">
+    <div class="mask">
+        <h1 id="heading">Kiltiksellä soi</h1>
+        <div>
+            <table  id="parent">
+            </table>
+        </div>
     </div>
+    <img id="theme_image" src="" crossorigin="anonymous">
 </body>
 <script type="text/javascript">
     $.getJSON('../spotify/history.json', function(json){
@@ -50,16 +80,53 @@
                 time = Math.floor(time);
             }
 
-            // TODO cut long title names and replace end with three dots ...
-            // TODO consider using album title pictures in the layout (eg. current background) : they can also be abtained from json
             const node = document.createElement("tr");
             node.classList.add("child");
             node.innerHTML = `<td>${item.artist}</td>
                               <td>${item.title}</td>
                               <td>${time}</td>
-                              <td>${time_unit}</td>`;
+                              <td><span>${time_unit} ago</span></td>`;
             document.getElementById("parent").appendChild(node);
         });
+
+	// Set background image and hidden image that is used to select color palette
+	$('#body').css('background-image', `url(${json[0].thumbnail})`);
+	$("#theme_image").attr("src",`${json[0].thumbnail}`);
     });
+</script>
+<script type="text/javascript">
+    function check() {
+	// Wait until #theme_image source is set, which is used to get color palette
+	if (!$('#theme_image').attr('src')) {
+	    return setTimeout(check, 300);
+	}
+
+	const colorThief = new ColorThief();
+	const img = document.querySelector('img');
+
+	function setColors() {
+	    const colors = colorThief.getPalette(img, 2);
+
+	    var r1 = colors[0][0];
+	    var g1 = colors[0][1];
+	    var b1 = colors[0][2];
+	    var r2 = colors[1][0];
+	    var g2 = colors[1][1];
+	    var b2 = colors[1][2];
+
+	    $('.mask').css('background', `rgba(${r1},${g1}, ${b1}, 0.6)`);
+	    $('h1').css('color', `rgb(${r2},${g2}, ${b2})`);
+	    $('table').css('color', `rgb(${r2},${g2}, ${b2})`);
+	}
+
+	// Make sure image is finished loading
+	if (img.complete) {
+	    setColors();
+	} else {
+	    console.log('false')
+	    img.addEventListener('load', function() { setColors(); });
+	}
+    }
+    check();
 </script>
 
