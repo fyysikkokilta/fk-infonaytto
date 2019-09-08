@@ -11,18 +11,18 @@
 var urlsWeighted = [
     //["example.com", 9999], // local file
     //["html/naytto2.html", 9999], // local file
-    ["html/inspirobot.html", 0.05],
-    [HSLTimetableURLGenerator, 2],
-    ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider https://github.com/patelnav/wiki-embed
-    [WappuURLGenerator, 0.1], //TODO: increase probability as wappu approaches
+    ["html/inspirobot.html", 0.05, 10],
+    [HSLTimetableURLGenerator, 2, 40],
+    ["https://en.wikipedia.org/wiki/Special:Random", 0.1], // TODO: consider something like https://github.com/patelnav/wiki-embed (<- this one doesn't work)
+    [WappuURLGenerator, 0.1, 30], //TODO: increase probability as wappu approaches
     [PerjantaiURLGenerator, 0.2],
     //["html/kanttiinit.html", 2], //TODO
-    [TelegramURLGenerator, 0.5],
+    [TelegramURLGenerator, 0.5, 40],
     ["html/calendar/calendar.html", 1],
     //["https://kanttiinit.fi", 2], //TODO: see https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=52,12&days=2019-04-05
-    ["html/ruokalistat/kanttiinit.html?page=1", 2.5], //TODO: add parameter for duration, show kanttiinit for longer
-    ["html/ruokalistat/kanttiinit.html?page=2", 2.5],
-    ["html/spotify.html", 2.5]
+    ["html/ruokalistat/kanttiinit.html?page=1", 2.5, 60],
+    ["html/ruokalistat/kanttiinit.html?page=2", 2.5, 60],
+    ["html/spotify.html", 2.5, 20],
     //["https://www.inkubio.fi/kiltiscam/", 0.5],
     //["https://www.inkubio.fi/kiltiscam/kiltahuone.jpg", 0.5], //TODO: own html file for this to fit image
 ];
