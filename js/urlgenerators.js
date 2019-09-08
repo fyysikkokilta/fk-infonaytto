@@ -81,14 +81,14 @@ const WappuURLGenerator = function() {
     return url;
 }
 
-const TelegramURLGenerator = function() {
+const TelegramURLGenerator = function(chat_username = undefined) {
     const chat_usernames = [
         ["fk_infonaytto", 1],
         //["fkinfonayttotestlors", 1],
-        //["fklors", 1.], //TODO
+        ["fklors", 1.],
     ];
 
-    var chat_username = weighted_choice(chat_usernames);
+    var chat_username = chat_username ? chat_username : weighted_choice(chat_usernames);
     var url = "html/tgpost.html";
     url += "?chat_username=" + chat_username;
     url += "&n_messages_to_show=" + N_TG_MESSAGES_TO_SHOW; // defined in config.js

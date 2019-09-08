@@ -17,7 +17,8 @@ var urlsWeighted = [
     [WappuURLGenerator, 0.1, 30], //TODO: increase probability as wappu approaches
     [PerjantaiURLGenerator, 0.2],
     //["html/kanttiinit.html", 2], //TODO
-    [TelegramURLGenerator, 0.5, 40],
+    [TelegramURLGenerator("fk_infonaytto"), 3.5, 30],
+    [TelegramURLGenerator("fklors"), 3.5, 30],
     ["html/calendar/calendar.html", 1],
     //["https://kanttiinit.fi", 2], //TODO: see https://kitchen.kanttiinit.fi/menus?lang=fi&restaurants=52,12&days=2019-04-05
     ["html/ruokalistat/kanttiinit.html?page=1", 2.5, 60],
