@@ -31,16 +31,16 @@
     text-align: center;
     margin: 0em;
     padding: .5em;
-    font-family: Inconsolata;
-    font-size: 35px;
+    font-family: Inconsolata; /* NOTE: needs to be installed */
+    font-size: 100px;
+  }
+  .restaurant-item-text {
+    font-family: Calibri;
+    font-size: 60px;
   }
   .restaurant-item-title {
-    font-family: Calibri;
-    font-size: 29px;
   }
   .restaurant-item-properties {
-    font-family: Calibri;
-    font-size: 29px;
     text-align: right;
   }
   .restaurant-properties-container {
@@ -53,8 +53,6 @@
   }
   .not-available {
     text-align: center;
-    font-family: Calibri;
-    font-size: 29px;
   }
 
 </style>
@@ -67,27 +65,29 @@
   let params = new URLSearchParams(window.location.search);
   let page = params.has("page") ? params.get("page") : 1;
 
-  const restaurants1 = {
-    52: "A Bloc",
-    5: "Alvari",
-    50: "Kipsari",
-  }
+  const restaurant_groups = [
+    {
+      52: "A Bloc",
+    },
+    {
+      5: "Alvari",
+      50: "Kipsari",
+    },
+    {
+      2: "T-talo",
+      1: "Kvarkki",
+    },
+    {
+      45: "Dipoli",
+      3: "Täffä",
+      //7: "TUAS",
+      //8: "Valimo",
+    }
+  ]
 
-  const restaurants2 = {
-    2: "T-talo",
-    45: "Dipoli",
-    1: "Kvarkki",
-    3: "Täffä",
-    //7: "TUAS",
-    //8: "Valimo",
-  }
 
-  if (page == 1) {
-    var restaurants = restaurants1;
-  } else if (page == 2) {
-    var restaurants = restaurants2;
-  }
-
+  var restaurants = restaurant_groups[page - 1];
+  if(restaurants == undefined) throw "Invalid restaurant page " + page;
 
   const restaurantIDs = Object.keys(restaurants).join(",");
 
@@ -120,13 +120,13 @@
 	    const titlesHTML = data[id][today].map((item) => {
 	      const title = item.title;
 	      return `
-		<div class="restaurant-item-title">${title}</div>`
+		<div class="restaurant-item-title restaurant-item-text">${title}</div>`
 	    }).join("")
 
 	    const propsHTML = data[id][today].map((item) => {
 	      const props = item.properties.join(", ");
 	      return `
-		<div class="restaurant-item-properties">${props}</div>`
+		<div class="restaurant-item-properties restaurant-item-text">${props}</div>`
 	    }).join("")
 
 	    nodeTitles.innerHTML = titlesHTML;
@@ -141,7 +141,7 @@
 	  } else {
 	    const notAvailableHTML = `
 	      <h4 class="restaurant-name">${restaurantName}</h4>
-	      <div class="not-available">Ruokalistaa ei saatavilla</div>`;
+	      <div class="not-available restaurant-item-text">Ruokalistaa ei saatavilla</div>`;
 
 	    node.innerHTML = notAvailableHTML;
 	  }
