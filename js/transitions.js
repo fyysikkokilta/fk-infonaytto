@@ -1,5 +1,4 @@
-//TODO: lörssiä tähän, star-wars tyyliset star wipet (fiin muotoinen star wipe), övereimmät powerpoint spinnaukset
-//see https://www.youtube.com/watch?v=cGqAu9gj_F0
+//based on https://www.youtube.com/watch?v=cGqAu9gj_F0
 
 /*
  * spin + scale + fade effect like newspaper in the Simpsons, except 3D

@@ -1,13 +1,7 @@
-//TODO: hide 'processing request' etc. in lower left corner, for firefox: https://support.mozilla.org/en-US/questions/1196927
+//TODO: hide 'processing request' etc. in lower left corner, for firefox: https://support.mozilla.org/en-US/questions/1196927 (not trivial)
 //TODO: lörinää
-//TODOx: telegram-viestejä jostain???
-//~TODOx: lörisevämpiä transitioita
 //~TODOx: kellonajan / viikonpäivän (perjantai) / vuodenajan (esim. wappu) mukaan muovautuvaa contenttia
 //TODO: lisää lörinää
-//TODO: generaattori + CSS countdown.html:lle
-//~TODOx: muisti vuotaa... ks. https://stackoverflow.com/questions/18644462/avoiding-memory-leaks-loading-content-into-an-iframe -- ainakin HSL sivu aiheuttaa (jos mahdolliset urlit naytto2.html ja hslURLGenerator niin muisti vuotaa) - myös telegram aiheuttaa
-//TODO: ruokalistat
-//TODO: 'kiltiksellä soi nyt' -- ks https://developer.spotify.com/documentation/web-api/reference/player/get-the-users-currently-playing-track/ http://kylebrumm.com/spotifyCurrentlyPlaying.js/ https://www.inkubio.fi/kiltiscam/
 //TODO: kahvibot (yhdistä yllä olevaan?)
 //TODO: 'haluatko viestisi tähän?'/palaute -slide -- comic sans + välkkyviä sateenkaaria + delfiinejä
 //TODO: sää
@@ -26,7 +20,7 @@ function newSite() {
     var duration = urlObj.duration;
 
     var targetFrame = currentIframeIsTop ? botIframe : topIframe;
-    //targetFrame.src = "about:blank"; // this prevents memory leak (maybe) -- TODO: doesn't seem to ...
+    //targetFrame.src = "about:blank"; // this prevents memory leak (maybe)
     $(targetFrame).empty();
     targetFrame.src = url;
     //console.log("loading", url);
