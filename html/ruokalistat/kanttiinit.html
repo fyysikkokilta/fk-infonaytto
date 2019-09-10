@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <script src="../../lib/jquery-3.3.1.min.js"></script>
 <style>
-
   body {
     /* Background from: https://www.pexels.com/photo/burger-and-vegetables-placed-on-brown-wood-surface-1565982/ */
     background: url(food.jpg) no-repeat center center fixed;
@@ -62,6 +61,37 @@
   </div>
 </body>
 <script type="text/javascript">
+
+  // Reincarnation of legendary kämälista plugin in Guild Room's old desktop's browser
+  function kämälista(menu) {
+    const wordsToReplace = {
+      // Longer forms of the word must be first
+      "juustoinen": "kämäinen",
+      "juusto": "kämä",
+      "kikherne": "parhaus",
+      "makkara": "kämä",
+      "ohrainen": "kämä",
+      "ohra": "kämä",
+      "höyrytettyä tummaa riisiä": "HTR",
+      "seiti": "setä",
+      "porkkana": "lörs",
+      "intialainen": "vinkuintialainen",
+      "kasvishöystö": "kämä"
+    }
+
+    var fixedMenu = menu;
+
+    for(var key in wordsToReplace) {
+      var value = wordsToReplace[key];
+      // TODO: consider something like: https://stackoverflow.com/questions/17264639/replace-text-but-keep-case
+      // From https://stackoverflow.com/questions/494035/how-do-you-use-a-variable-in-a-regular-expression
+      var re = new RegExp(key,"gi");
+      fixedMenu = fixedMenu.replace(re, value);
+    }
+
+    return fixedMenu;
+  }
+
   let params = new URLSearchParams(window.location.search);
   let page = params.has("page") ? params.get("page") : 1;
 
@@ -101,50 +131,45 @@
         var nodes = [];
 
         Object.keys(restaurants).forEach((id) => {
-          //console.log(id, restaurants[id], data[id][today]);
 
           const node = document.createElement("div");
           node.classList.add("restaurant-container");
-	  const nodeTitles = document.createElement("div");
+	        const nodeTitles = document.createElement("div");
           nodeTitles.classList.add("restaurant-title-container");
-	  const nodeProps = document.createElement("div");
+	        const nodeProps = document.createElement("div");
           nodeProps.classList.add("restaurant-props-container");
 	  
           const restaurantName = restaurants[id];
 
-	  //TODO: This doesn't work with A Block and Alvari, because differences in json 
-	  // -> separate function for all cases?
-	  if (data[id].hasOwnProperty(today)) {
-	    //TODO: string replacements ('juusto' -> 'kämä' etc)
-	    //TODO: group wicked rabbit, 'grillistä' etc. consider separate handlers for alvari etc
-	    const titlesHTML = data[id][today].map((item) => {
-	      const title = item.title;
-	      return `
-		<div class="restaurant-item-title restaurant-item-text">${title}</div>`
-	    }).join("")
+          //TODO: This doesn't work with A Block and Alvari, because differences in json 
+          // -> separate function for all cases?
+          if (data[id].hasOwnProperty(today)) {
+            //TODO: group wicked rabbit, 'grillistä' etc. consider separate handlers for alvari etc
+            const titlesHTML = data[id][today].map((item) => {
+              const title = item.title;
+              return `
+                <div class="restaurant-item-title restaurant-item-text">${title}</div>`
+            }).join("")
 
-	    const propsHTML = data[id][today].map((item) => {
-	      const props = item.properties.join(", ");
-	      return `
-		<div class="restaurant-item-properties restaurant-item-text">${props}</div>`
-	    }).join("")
+            const propsHTML = data[id][today].map((item) => {
+              const props = item.properties.join(", ");
+              return `
+                <div class="restaurant-item-properties restaurant-item-text">${props}</div>`
+            }).join("")
 
-	    nodeTitles.innerHTML = titlesHTML;
-	    nodeProps.innerHTML = propsHTML;
+            const nodeHTML =`
+              <h4 class="restaurant-name">${restaurantName}</h4>
+              <div class="restaurant-titles-container">${kämälista(titlesHTML)}</div>
+              <div class="restaurant-properties-container">${propsHTML}</div>`;
 
-	    const nodeHTML =`
-	      <h4 class="restaurant-name">${restaurantName}</h4>
-	      <div class="restaurant-titles-container">${titlesHTML}</div>
-	      <div class="restaurant-properties-container">${propsHTML}</div>`;
+            node.innerHTML = nodeHTML;
+          } else {
+            const notAvailableHTML = `
+              <h4 class="restaurant-name">${restaurantName}</h4>
+              <div class="not-available restaurant-item-text">Ruokalistaa ei saatavilla</div>`;
 
-	    node.innerHTML = nodeHTML;
-	  } else {
-	    const notAvailableHTML = `
-	      <h4 class="restaurant-name">${restaurantName}</h4>
-	      <div class="not-available restaurant-item-text">Ruokalistaa ei saatavilla</div>`;
-
-	    node.innerHTML = notAvailableHTML;
-	  }
+            node.innerHTML = notAvailableHTML;
+          }
 
           nodes.push([restaurantName, node]);
         });
