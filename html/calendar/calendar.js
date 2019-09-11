@@ -81,7 +81,6 @@ leftMax = -50
 leftStep = 1
 function move_left() {
     notVisible = $(window).height() - leftEvents.offsetHeight;
-    console.log(notVisible, leftStep)
     if (notVisible < 0) {
         leftMax = notVisible;
     }
