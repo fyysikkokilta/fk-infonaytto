@@ -51,9 +51,48 @@ var i;
 for (i = 0; i < cids.length; i++) {
     printCalendar(cids[i], keys[i], titles[i], i);
 }
-function move_div() {
-    document.getElementById('sec1').scrollTop += 10;
-    console.log('Moved sec1')
+
+leftpos = 0
+function direction() {
+
 }
 
-setInterval(move_div, 1000);
+rightEvents = document.getElementById('sec1')
+leftEvents = document.getElementById('sec0')
+
+rightpos = 0
+rightMax = -50
+rightStep = 1
+function move_right() {
+    notVisible = $(window).height() - rightEvents.offsetHeight;
+    if (notVisible < 0) {
+        rightMax = notVisible;
+    }
+    else return
+    if (rightpos == rightMax || rightpos == 0) {
+        rightStep = -rightStep
+    }
+    rightpos += rightStep
+    rightEvents.style.top = rightpos + 'px';
+}
+
+leftpos = 0
+leftMax = -50
+leftStep = 1
+function move_left() {
+    notVisible = $(window).height() - leftEvents.offsetHeight;
+    console.log(notVisible, leftStep)
+    if (notVisible < 0) {
+        leftMax = notVisible;
+    }
+    else return
+    if (leftpos == leftMax || leftpos == 0) {
+        leftStep = -leftStep
+    }
+    leftpos += leftStep
+    leftEvents.style.top = leftpos + 'px';
+}
+
+// Move if overflowing
+setInterval(move_left, 50);
+setInterval(move_right, 50);

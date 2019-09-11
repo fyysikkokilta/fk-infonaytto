@@ -14,21 +14,23 @@ color:lightgray;
 
 #sec0
 {
+    position: relative;
     float:left;
     width:35%;
     padding-top:6%;
     padding-left:10%;
-    overflow: hidden;
+    overflow-y: hidden;
     text-align:left;
 }
 #sec1
 {
+    position: relative;
     float:right;
     width:35%;
     padding-top:6%;
     padding-right:10%;
     text-align:left;
-    overflow: hidden;
+    overflow-y: hidden;
     height: 100%;
 }
 
