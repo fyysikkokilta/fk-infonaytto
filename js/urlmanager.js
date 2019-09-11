@@ -18,7 +18,7 @@ var urlsWeighted = [
     [PerjantaiURLGenerator, 0.2],
     [TelegramURLGenerator("fk_infonaytto"), 3.5, 30],
     [TelegramURLGenerator("fklors"), 3.5, 30],
-    ["html/calendar/calendar.html", 1],
+    ["html/calendar/calendar.html", 20],
     ["html/ruokalistat/kanttiinit.html?page=1", 2.0, 60],
     ["html/ruokalistat/kanttiinit.html?page=2", 2.0, 60],
     ["html/ruokalistat/kanttiinit.html?page=3", 2.0, 60],
