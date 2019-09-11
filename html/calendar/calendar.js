@@ -22,7 +22,7 @@ var titles = [
     'Fuksit',
     'Kulttuuri',
     'Kokoukset',
-    'Jotkut4',
+    'Lisäkulttuuri',
     'Liikunta',
     'Tapahtumat',
     'Ura ja opinnot',
@@ -51,3 +51,9 @@ var i;
 for (i = 0; i < cids.length; i++) {
     printCalendar(cids[i], keys[i], titles[i], i);
 }
+function move_div() {
+    document.getElementById('sec1').scrollTop += 10;
+    console.log('Moved sec1')
+}
+
+setInterval(move_div, 1000);

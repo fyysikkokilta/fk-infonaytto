@@ -149,7 +149,7 @@ window.formatGoogleCalendar = function () {
             upcomingElem.insertAdjacentHTML('beforebegin', settings.upcomingHeading);
         }
 
-        if (pastElem != null || pastElem.firstChild) {
+        if (pastElem != null && pastElem.firstChild) {
             pastElem.insertAdjacentHTML('beforebegin', settings.pastHeading);
         }
     };
