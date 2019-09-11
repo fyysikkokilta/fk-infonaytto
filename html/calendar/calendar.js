@@ -1,4 +1,5 @@
 // HUOM! Kalenteria vastaava markup pitää laittaa
+//TODO: split across multiple HTML pages, doesn't fit on one page
 // calendar.html-tiedostoon, jos määrä muuttuu.
 var cids = [
     'u6eju2k63ond2fs7fqvjbna50c@group.calendar.google.com',
@@ -37,7 +38,7 @@ function printCalendar(cid, key, title, index) {
       sameDayTimes: true,
       dayNames: true,
       pastTopN: -1,
-      upcomingTopN: 10,
+      upcomingTopN: 3,
       recurringEvents: true,
       itemsTagName: 'li',
       upcomingSelector: '#calendar' + index,

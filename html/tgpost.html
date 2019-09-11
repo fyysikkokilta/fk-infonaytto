@@ -3,21 +3,50 @@
     <head>
     <meta charset="utf-8">
     <script src="../lib/jquery-3.3.1.min.js"></script>
+<style>
+#tg-script-container > * {
+    margin-top: 15px;
+}
+#title-text-container {
+    height: 150px;
+    width:100%;
+    position:fixed;
+    top:0;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    background: #eeeeee;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 70px;
+}
+.tg-nick {
+    color: #2481CC;
+}
+</style>
     </head>
-<body style="background: white; overflow:hidden; position:absolute; bottom:0; left:0; right:0;">
-    <div id="tg-script-container" style="transform: scale(2); transform-origin: bottom center; position:absolute; bottom: 0;"></div>
+<body style="background: white; overflow:hidden; position:absolute; bottom:0; left:0; right:0; margin-bottom:15px;">
+    <div id="tg-script-container" style="transform: scale(2.5); transform-origin: bottom center; position:absolute; bottom: 0;"></div>
+    <div id="title-text-container" style="display:none;">Lähetä viestiä!&ensp;<span class="tg-nick"> @fk_infonayttobot</span></div>
+    <div id="error-message-container" style="display:none; color:#ff0000; font-size:30px;"></div>
 </body>
 
 <script type="text/javascript">
-    //TODO: stylesheet, scroll to bottom if messages are too tall, spacing between elemes
     const params = new URLSearchParams(window.location.search);
     if(!params.has("chat_username")) {
-        //TODO: show this in HTML? (see countdown_template.html)
-        console.error("missing chat_username in URL.");
+	    var errDiv = document.querySelector("#error-message-container");
+	    errDiv.innerHTML = "missing chat_username in URL";
+	    errDiv.style.display = "block";
     }
     const chat_username = params.get("chat_username");
     //console.log("chat_username", chat_username);
     const n_messages_to_show = params.has("n_messages_to_show") ? params.get("n_messages_to_show") : 3;
+
+    const show_header = params.has("show_header") ? params.get("show_header") == "true" : false;
+    if(show_header) {
+	document.querySelector("#title-text-container").style.display = "";
+    }
+
 
     var previous_message_ids = {};
 

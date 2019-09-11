@@ -81,14 +81,20 @@ const WappuURLGenerator = function() {
     return url;
 }
 
-const TelegramURLGenerator = function() {
+const TelegramURLGenerator = function(chat_username = undefined) {
     const chat_usernames = [
         ["fk_infonaytto", 1],
-        //["fklors", 1.], //TODO
+        //["fkinfonayttotestlors", 1],
+        ["fklors", 1.],
     ];
 
+    var chat_username = chat_username ? chat_username : weighted_choice(chat_usernames);
     var url = "html/tgpost.html";
-    url += "?chat_username=" + weighted_choice(chat_usernames);
-    //url += "&n_messages_to_show=" + n_tg_messages_to_show; // defined in config.js
+    url += "?chat_username=" + chat_username;
+    url += "&n_messages_to_show=" + N_TG_MESSAGES_TO_SHOW; // defined in config.js
+    if(chat_username == "fk_infonaytto") {
+        url += "&show_header=true";
+    }
+
     return url;
 }

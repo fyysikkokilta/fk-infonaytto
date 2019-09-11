@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf8" />
+  <script src="../lib/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css?family=Candal&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body
+    {
+        background-color:darkslategray;
+        margin:0;
+        overflow:hidden;
+    }
+    h1 {
+        position: absolute;
+        left: 10vh;
+        top: 5vh;
+        font-size: 135px;
+        font-family: 'Candal', sans-serif;
+    }
+    img {
+        display: none;
+    }
+    .child > div {
+      display: inline-block;
+    }
+    body {
+        background-color: white;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100vw 100vw;
+        margin: 0;
+    }
+    div {
+        font-size: 45px;
+        font-family: 'Candal', sans-serif;
+    }
+    table {
+        position:absolute;
+        width: 1300px;
+        left: 10vh;
+        top: 30vh;
+        margin-left: -30px;
+        border-spacing: 30px;
+    }
+    .mask {
+        margin-top:0;
+        margin-left:-90vh;
+        margin-top:-60vh;
+        background: white;
+        height: 220vh;
+        width: 220vh;
+        border-radius: 50%;
+    }
+    td {
+        vertical-align: top;
+    }
+    span {
+        white-space: nowrap;
+    }
+  </style>
+</head>
+<html>
+  <body id="body">
+    <div class="mask">
+      <h1 id="heading">Kiltiksellä soi</h1>
+      <div>
+        <table id="parent">
+          <col style="width:30%">
+          <col style="width:60%">
+          <col style="width:10%">
+          <tbody id="parent"></tbody>
+        </table>
+      </div>
+    </div>
+    <img id="theme_image" src="" crossorigin="anonymous" />
+  </body>
+</html>
+<script type="text/javascript">
+  $.getJSON("../spotify/history.json", function(json) {
+    json.forEach(item => {
+      // Set time to hours if over one hour has passed
+      var time = (Date.now() / 1000 - parseInt(item.timestamp)) / 60;
+      var time_unit = "min";
+      if (time > 60) {
+        time = Math.floor(time / 60);
+        var time_unit = "h";
+      } else {
+        time = Math.floor(time);
+      }
+
+      const node = document.createElement("tr");
+      node.classList.add("child");
+      node.innerHTML = `<td>${item.artist}</td>
+                        <td>${item.title}</td>
+                        <td><span>${time} ${time_unit} ago</span></td>`;
+      document.getElementById("parent").appendChild(node);
+    });
+
+    // Set background image and hidden image that is used to select color palette
+    $("#body").css("background-image", `url(${json[0].thumbnail})`);
+    $("#theme_image").attr("src", `${json[0].thumbnail}`);
+  });
+</script>
+<script type="text/javascript">
+  function check() {
+    // Wait until #theme_image source is set, which is used to get color palette
+    if (!$("#theme_image").attr("src")) {
+      return setTimeout(check, 300);
+    }
+
+    const colorThief = new ColorThief();
+    const img = document.querySelector("img");
+
+    function setColors() {
+      const colors = colorThief.getPalette(img, 2);
+
+      var r1 = colors[0][0];
+      var g1 = colors[0][1];
+      var b1 = colors[0][2];
+      var r2 = colors[1][0];
+      var g2 = colors[1][1];
+      var b2 = colors[1][2];
+
+      $(".mask").css("background", `rgba(${r1},${g1}, ${b1}, 0.90)`);
+      $("h1").css("color", `rgb(${r2},${g2}, ${b2})`);
+      $("table").css("color", `rgb(${r2},${g2}, ${b2})`);
+    }
+
+    // Make sure image is finished loading
+    if (img.complete) {
+      setColors();
+    } else {
+      console.log("false");
+      img.addEventListener("load", function() {
+        setColors();
+      });
+    }
+  }
+  check();
+</script>

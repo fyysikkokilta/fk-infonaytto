@@ -1,5 +1,4 @@
-//TODO: lörssiä tähän, star-wars tyyliset star wipet (fiin muotoinen star wipe), övereimmät powerpoint spinnaukset
-//see https://www.youtube.com/watch?v=cGqAu9gj_F0
+//based on https://www.youtube.com/watch?v=cGqAu9gj_F0
 
 /*
  * spin + scale + fade effect like newspaper in the Simpsons, except 3D
@@ -215,6 +214,7 @@ $.effects.define( "clockwipe", "toggle", function( options, done ) {
 });
 
 // list of all possible transitions
+// TODO: go through these and leave out laggy ones
 var transitionEffectsWeighted = [
     [{effect: "blind", duration: "slow"},                       1],
     [{effect: "bounce", distance: 100, times: 5, duration: 1000},   1],

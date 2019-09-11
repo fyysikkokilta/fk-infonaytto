@@ -1,6 +1,7 @@
 body
 {
 background-color:darkslategray;
+margin:0;
 }
 #calendars
 {
@@ -10,6 +11,12 @@ color:lightgray;
 
 .calendar
 {
+    font-size:40px;
+}
+
+h2 {
+    font-family:sans-serif;
+    font-size:80px;
 }
 
 #sec0
@@ -17,7 +24,6 @@ color:lightgray;
     position: relative;
     float:left;
     width:35%;
-    padding-top:6%;
     padding-left:10%;
     overflow-y: hidden;
     text-align:left;
@@ -27,7 +33,6 @@ color:lightgray;
     position: relative;
     float:right;
     width:35%;
-    padding-top:6%;
     padding-right:10%;
     text-align:left;
     overflow-y: hidden;
@@ -42,7 +47,7 @@ color:#e6b800;
 .date
 {
 font-family:monospace;
-line-height:27px;
+line-height:32px;
 }
 .description
 {
