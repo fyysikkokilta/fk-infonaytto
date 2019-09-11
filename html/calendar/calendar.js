@@ -52,43 +52,57 @@ for (i = 0; i < cids.length; i++) {
     printCalendar(cids[i], keys[i], titles[i], i);
 }
 
-leftpos = 0
+leftpos = 0;
 function direction() {
 
 }
 
-rightEvents = document.getElementById('sec1')
-leftEvents = document.getElementById('sec0')
+rightEvents = document.getElementById('sec1');
+leftEvents = document.getElementById('sec0');
 
-rightpos = 0
-rightMax = -50
-rightStep = 1
+waitTime = 1000;
+
+rightpos = 0;
+rightMax = -50;
+rightStep = 1;
+rightWaiting = false;
 function move_right() {
     notVisible = $(window).height() - rightEvents.offsetHeight;
     if (notVisible < 0) {
         rightMax = notVisible;
     }
     else return
+
+    if (rightWaiting) return
+
     if (rightpos == rightMax || rightpos == 0) {
-        rightStep = -rightStep
+        rightStep = -rightStep;
+        rightWaiting = true;
+        setTimeout(function(){rightWaiting = false;}, waitTime);
     }
-    rightpos += rightStep
+    rightpos += rightStep;
     rightEvents.style.top = rightpos + 'px';
 }
 
-leftpos = 0
-leftMax = -50
-leftStep = 1
+leftpos = 0;
+leftMax = -50;
+leftStep = 1;
+leftWaiting = false;
 function move_left() {
     notVisible = $(window).height() - leftEvents.offsetHeight;
     if (notVisible < 0) {
         leftMax = notVisible;
     }
     else return
+
+    if (leftWaiting) return
+
     if (leftpos == leftMax || leftpos == 0) {
-        leftStep = -leftStep
+        leftStep = -leftStep;
+        leftWaiting = true;
+        setTimeout(function(){leftWaiting = false;}, waitTime);
     }
-    leftpos += leftStep
+    leftpos += leftStep;
     leftEvents.style.top = leftpos + 'px';
 }
 
