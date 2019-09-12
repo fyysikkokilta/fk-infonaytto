@@ -189,33 +189,33 @@
           document.getElementById("parent-container").appendChild(x[1]);
         });
 
-        timerInterval = 10;
-        waitTime = 3000;
-        leftEvents = document.getElementById("parent-container");
+        timerInterval = 5;
+        waitTime = 4000;
+        parentContainer = document.getElementById("parent-container");
 
-        leftpos = 0;
-        leftMax = -50;
-        leftStep = 1;
-        leftWaiting = false;
-        function move_left() {
-            notVisible = $(window).height() - leftEvents.offsetHeight;
+        pos = 0;
+        posMax = -50;
+        posStep = 1;
+        posWaiting = false;
+        function move_pos() {
+            notVisible = $(window).height() - parentContainer.offsetHeight;
             if (notVisible < 0) {
-                leftMax = notVisible;
+                posMax = notVisible;
             }
             else return;
 
-            if (leftWaiting) return;
+            if (posWaiting) return;
 
-            if (leftpos == leftMax || leftpos == 0) {
-                leftStep = -leftStep;
-                leftWaiting = true;
-                setTimeout(function(){leftWaiting = false;}, waitTime);
+            if (pos == posMax || pos == 0) {
+                posStep = -posStep;
+                posWaiting = true;
+                setTimeout(function(){posWaiting = false;}, waitTime);
             }
-            leftpos += leftStep;
-            leftEvents.style.top = leftpos + 'px';
+            pos += posStep;
+            parentContainer.style.top = pos + 'px';
         }
         // Move if overflowing
-        setInterval(move_left, timerInterval);
+        setInterval(move_pos, timerInterval);
   });
 </script>
 </html>
