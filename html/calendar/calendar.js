@@ -61,7 +61,8 @@ function direction() {
 rightEvents = document.getElementById('sec1');
 leftEvents = document.getElementById('sec0');
 
-waitTime = 1000;
+timerInterval = 10;
+waitTime = 3000;
 
 rightpos = 0;
 rightMax = -50;
@@ -108,5 +109,5 @@ function move_left() {
 }
 
 // Move if overflowing
-setInterval(move_left, 50);
-setInterval(move_right, 50);
+setInterval(move_left, timerInterval);
+setInterval(move_right, timerInterval);
