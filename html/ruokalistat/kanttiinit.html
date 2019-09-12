@@ -13,6 +13,7 @@
      background-size: cover;
   }
   #parent-container {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -138,10 +139,10 @@
           nodeTitles.classList.add("restaurant-title-container");
 	        const nodeProps = document.createElement("div");
           nodeProps.classList.add("restaurant-props-container");
-	  
+
           const restaurantName = restaurants[id];
 
-          //TODO: This doesn't work with A Block and Alvari, because differences in json 
+          //TODO: This doesn't work with A Block and Alvari, because differences in json
           // -> separate function for all cases?
           if (data[id].hasOwnProperty(today)) {
             //TODO: group wicked rabbit, 'grillistä' etc. consider separate handlers for alvari etc
@@ -190,21 +191,23 @@
 
         timerInterval = 10;
         waitTime = 3000;
-        leftEvents = document.getElementById('parent-container');
+        leftEvents = document.getElementById("parent-container");
 
         leftpos = 0;
         leftMax = -50;
         leftStep = 1;
         leftWaiting = false;
         function move_left() {
-            notVisible = $(window).height() - leftEvents.offsetHeight;
+            console.log('Offset', leftEvents.offsetHeight);
+            console.log('height', leftEvents.height);
+            notVisible = $(window).height() - leftEvents.height;
             if (notVisible < 0) {
                 leftMax = notVisible;
             }
-            else return
-        
-            if (leftWaiting) return
-        
+            else return;
+
+            if (leftWaiting) return;
+
             if (leftpos == leftMax || leftpos == 0) {
                 leftStep = -leftStep;
                 leftWaiting = true;
