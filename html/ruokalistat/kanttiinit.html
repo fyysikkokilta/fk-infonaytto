@@ -189,13 +189,13 @@
           document.getElementById("parent-container").appendChild(x[1]);
         });
 
-        timerInterval = 5;
+        timerInterval = 10;
         waitTime = 4000;
         parentContainer = document.getElementById("parent-container");
 
         pos = 0;
         posMax = -50;
-        posStep = 1;
+        posStep = 2;
         posWaiting = false;
         function move_pos() {
             notVisible = $(window).height() - parentContainer.offsetHeight;
@@ -206,7 +206,7 @@
 
             if (posWaiting) return;
 
-            if (pos == posMax || pos == 0) {
+            if (pos <= posMax || pos == 0) {
                 posStep = -posStep;
                 posWaiting = true;
                 setTimeout(function(){posWaiting = false;}, waitTime);

@@ -21,9 +21,9 @@ var keys = [
 ];
 var titles = [
     'Fuksit',
-    'Kulttuuri',
+    'Isojutut',
     'Kokoukset',
-    'Lisäkulttuuri',
+    'Fk kulttuuri',
     'Liikunta',
     'Tapahtumat',
     'Ura ja opinnot',
