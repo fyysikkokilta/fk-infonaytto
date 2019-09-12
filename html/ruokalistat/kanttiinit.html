@@ -187,6 +187,34 @@
         nodes.forEach((x) => {
           document.getElementById("parent-container").appendChild(x[1]);
         });
+
+        timerInterval = 10;
+        waitTime = 3000;
+        leftEvents = document.getElementById('parent-container');
+
+        leftpos = 0;
+        leftMax = -50;
+        leftStep = 1;
+        leftWaiting = false;
+        function move_left() {
+            notVisible = $(window).height() - leftEvents.offsetHeight;
+            if (notVisible < 0) {
+                leftMax = notVisible;
+            }
+            else return
+        
+            if (leftWaiting) return
+        
+            if (leftpos == leftMax || leftpos == 0) {
+                leftStep = -leftStep;
+                leftWaiting = true;
+                setTimeout(function(){leftWaiting = false;}, waitTime);
+            }
+            leftpos += leftStep;
+            leftEvents.style.top = leftpos + 'px';
+        }
+        // Move if overflowing
+        setInterval(move_left, timerInterval);
   });
 </script>
 </html>
