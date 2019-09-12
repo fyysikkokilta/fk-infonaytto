@@ -198,9 +198,7 @@
         leftStep = 1;
         leftWaiting = false;
         function move_left() {
-            console.log('Offset', leftEvents.offsetHeight);
-            console.log('height', leftEvents.height);
-            notVisible = $(window).height() - leftEvents.height;
+            notVisible = $(window).height() - leftEvents.offsetHeight;
             if (notVisible < 0) {
                 leftMax = notVisible;
             }
