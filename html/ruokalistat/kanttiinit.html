@@ -19,6 +19,8 @@
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
+    animation: scroll 10s ease-in-out 3s;
+    animation-fill-mode: forwards;
   }
   .restaurant-container {
     background: rgba(253, 255, 228, 0.8);
@@ -53,6 +55,15 @@
   }
   .not-available {
     text-align: center;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateY(0px);
+    }
+    100% {
+      transform: translateY(calc(100vh - 100%));
+    }
   }
 
 </style>
@@ -215,7 +226,7 @@
             parentContainer.style.top = pos + 'px';
         }
         // Move if overflowing
-        setInterval(move_pos, timerInterval);
+        //setInterval(move_pos, timerInterval);
   });
 </script>
 </html>
