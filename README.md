@@ -2,6 +2,14 @@
 
 Lörinä as service
 
+!!!
+
+This repo is not actively maintained. For current version of infonaytto please see
+
+https://github.com/fyysikkokilta/fk-infonaytto-v2
+
+!!!
+
 ## Setup
 
 1. `git clone` the repo
